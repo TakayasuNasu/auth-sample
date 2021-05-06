@@ -1,0 +1,9 @@
+{
+  "name": "Auth-Sample-Nextjs",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "nextjs",
+  "workspaceFolder": "/home/app",
+  "forwardPorts": [3000],
+  "extensions": ["esbenp.prettier-vscode", "oderwat.indent-rainbow"],
+  "shutdownAction": "none"
+}
