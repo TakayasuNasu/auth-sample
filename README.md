@@ -47,3 +47,4 @@ components
 - [CSS Grid Cheat Sheet Illustrated in 2021🎖️](https://dev.to/joyshaheb/css-grid-cheat-sheet-illustrated-in-2021-1a3)
 - [Atomic Design\. Better and Faster React Apps](https://carlos-parreno.medium.com/atomic-design-thinking-154edb2d2a71)
 - [CSS Reference](https://cssreference.io/)
+- [OpenAPI Specification \- Version 3\.0\.3 \| Swagger](https://swagger.io/specification/)
