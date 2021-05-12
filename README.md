@@ -38,6 +38,20 @@ components
 |  |  |--layout.tsx
 ```
 
+## Mock API Server
+
+1. Install VSCode extenstion of Swagger Editor.
+   - [Swagger Viewer \- Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer)
+1. Create yml file like `docs/sample.yml`.
+1. Run the Command `Preview Swagger`.
+1. Install Mock API Server as Prism
+   - `yarn add --dev @stoplight/prism-cli`
+1. write below code at script section in package.json
+   - `"prism": "./node_modules/.bin/prism mock"`
+1. Run Server
+   - `yarn prism ./docs/sample.yml`
+1. Access Server like `127.0.0.1:4010/students`
+
 ## Reference
 
 - [Next\.js](https://nextjs.org/docs/getting-started)

@@ -4,6 +4,10 @@
   "service": "nextjs",
   "workspaceFolder": "/home/app",
   "forwardPorts": [3000],
-  "extensions": ["esbenp.prettier-vscode", "oderwat.indent-rainbow"],
+  "extensions": [
+    "esbenp.prettier-vscode",
+    "oderwat.indent-rainbow",
+    "arjun.swagger-viewer"
+  ],
   "shutdownAction": "none"
 }

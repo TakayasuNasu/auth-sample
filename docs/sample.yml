@@ -308,8 +308,6 @@ components:
   schemas:
     Student:
       type: object
-      required:
-        - id
       properties:
         id:
           type: integer
@@ -331,16 +329,12 @@ components:
         course:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: integer
-                format: int64
+            $ref: "#/components/schemas/Course"
+        application:
+          $ref: "#/components/schemas/Application"
 
     Course:
       type: object
-      required:
-        - id
       properties:
         id:
           type: integer
@@ -351,6 +345,7 @@ components:
           example: Python
         duration:
           type: string
+          example: 20 Weeks (5 Months) - 2 hours per week
         schedules:
           type: array
           items:
@@ -362,28 +357,57 @@ components:
               - 2021/05/12
         description:
           type: string
-          example: Python for beginners.
+          example: Learn the fundamentals of algorithms and data structures. This course aims to help students to learn everything needed to participate in CCC - Junior Division competitions. We start from basics such as Mathematics Fundamentals, Searching/Sorting and Linear Data Structures. Then we dive into interesting challenges and tips/tricks on how to think algorithmically and solve problems efficiently.
         image_path:
           type: string
           example: /img/courses/card.jpg
         features:
           type: array
           items:
-            type: integer
+            type: string
+            example:
+              - Learn the fundamentals of algorithms and data structures
+              - Build a solid foundation to become a Competitive Programming wizard
+              - How to think algorithmically and solve programming problems efficiently
         level:
-          type: integer
+          type: string
+          example: Intermediate
         prerequisites:
           type: array
           items:
-            type: integer
+            type: string
+            example:
+              - DPCS100
+              - Basic knowledge of Python programming language
         price:
-          type: integer
-          example: 2000
-        status:
-          type: string
-          enum:
-            - normal
-            - hard
+          type: object
+          properties:
+            price_unit:
+              type: integer
+              minimum: 1
+              example: 80
+            price_hours:
+              type: integer
+              example: 2
+            price_periodicity:
+              type: string
+              enum:
+                - Weekly
+                - Monthly
+
+    Application:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          status:
+            type: string
+            enum:
+              - waiting
+              - approved
 
     Error:
       type: object
