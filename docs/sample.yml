@@ -11,10 +11,10 @@ security:
   - BasicAuth: []
 
 paths:
-  /students:
+  /users:
     get:
       tags:
-        - students
+        - users
       description: Get all students data.
       responses:
         200:
@@ -28,16 +28,14 @@ paths:
                 example:
                   - id: 1
                     name: David Beckham
-                    birth: 2000/12/12
+                    birth: 24/01/1994
                     email: student1@gmail.com
-                    phone: 1231231233
-                    address: Vancouver
+                    phone: 123-456-7890
                   - id: 2
                     name: Eric Cantona
-                    birth: 1990/11/11
+                    birth: 31/12/2000
                     email: student2@gmail.com
-                    phone: 4564564567
-                    address: Tokyo
+                    phone: 123-456-7890
 
   /students/{token}:
     get:
@@ -337,8 +335,6 @@ components:
             User's email
         user_phone:
           type: string
-          minimum: 8
-          maximum: 16
           example: 000-000-0000
           description: |
             User's phone number
@@ -356,8 +352,6 @@ components:
             User's parents email
         user_parent_phone:
           type: string
-          minimum: 8
-          maximum: 16
           example: 000-000-0000
           description: |
             User's parents phone number
