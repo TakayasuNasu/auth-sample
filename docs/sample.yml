@@ -26,13 +26,15 @@ paths:
                 items:
                   $ref: "#/components/schemas/User"
                 example:
-                  - id: 1
-                    name: David Beckham
+                  - id: eyJz9sdfsdfsdfsd
+                    first_name: David
+                    last_name: Beckham
                     birth: 24/01/1994
                     email: student1@gmail.com
                     phone: 123-456-7890
-                  - id: 2
-                    name: Eric Cantona
+                  - id: feaf9ef7832ffew
+                    first_name: Eric
+                    last_name: Cantona
                     birth: 31/12/2000
                     email: student2@gmail.com
                     phone: 123-456-7890
