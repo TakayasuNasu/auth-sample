@@ -11,10 +11,10 @@ security:
   - BasicAuth: []
 
 paths:
-  /users:
+  /user:
     get:
       tags:
-        - users
+        - user
       description: Get all students data.
       responses:
         200:
@@ -26,23 +26,23 @@ paths:
                 items:
                   $ref: "#/components/schemas/User"
                 example:
-                  - id: eyJz9sdfsdfsdfsd
-                    first_name: David
-                    last_name: Beckham
-                    birth: 24/01/1994
+                  - id: 1
+                    name: David Beckham
+                    birth: 2000/12/12
                     email: student1@gmail.com
-                    phone: 123-456-7890
-                  - id: feaf9ef7832ffew
-                    first_name: Eric
-                    last_name: Cantona
-                    birth: 31/12/2000
+                    phone: 1231231233
+                    address: Vancouver
+                  - id: 2
+                    name: Eric Cantona
+                    birth: 1990/11/11
                     email: student2@gmail.com
-                    phone: 123-456-7890
+                    phone: 4564564567
+                    address: Tokyo
 
-  /students/{token}:
+  /user/{token}:
     get:
       tags:
-        - students
+        - user
       description: Get specific student data by token.
       parameters:
         - $ref: "#/components/parameters/PageLimit"
@@ -70,7 +70,7 @@ paths:
   /students/{token}/courses:
     get:
       tags:
-        - students
+        - user
       description: Get courses of specific student has.
       parameters:
         - $ref: "#/components/parameters/PageLimit"
