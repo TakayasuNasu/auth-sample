@@ -371,10 +371,7 @@ components:
             - admin
         user_status:
           type: string
-          example:
-            - Tuesday 7pm - 9pm
-            - Thursday 7pm - 9pm
-            - Saturday 1pm - 3pm
+          example: applied
           description: |
             User status<br>
             Acceptable values are:
