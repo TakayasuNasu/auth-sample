@@ -327,7 +327,6 @@ components:
             The path of a user's profile image
         birth:
           type: string
-          example: 30/04/2021
           format: dd/mm/yyyy
           description: |
             User's birth day
@@ -337,7 +336,6 @@ components:
             User's email
         phone:
           type: string
-          example: 000-000-0000
           description: |
             User's phone number
         parent_first_name:
@@ -354,49 +352,33 @@ components:
             User's parents email
         parent_phone:
           type: string
-          example: 000-000-0000
           description: |
             User's parents phone number
         type:
           type: string
-          example: student
           description: |
             User's type<br>
             Acceptable values are:
             - student
             - admin
-        status:
-          type: string
-          example: applied
-          description: |
-            User status<br>
-            Acceptable values are:
-            - wait list - who waits for a next course
-            - applied - who applied for a course but not paid yet
-            - registered - who applied for a course and paid
-            - resign - who quit a course
 
     Course:
       type: object
       properties:
         id:
           type: string
-          example: DPCS100#001
           description: |
             Unique course ID
         name:
           type: string
-          example: ADVANCED COMPETITIVE PROGRAMMING
           description: |
             Course name
         category:
           type: string
-          example: cs
           description: |
             Course category
         status:
           type: string
-          example: active
           description: |
             Course status<br>
             Acceptable values are:
@@ -406,13 +388,11 @@ components:
         start_date:
           type: string
           format: dd/mm/yyyy
-          example: 30/04/2021
           description: |
             course start date
         end_date:
           type: string
           format: dd/mm/yyyy
-          example: 30/07/2021
           description: |
             course end date
         class_schedules:
@@ -422,11 +402,9 @@ components:
               start_time:
                 type: string
                 format: dd/mm/yyyy
-                example: 30/04”/2021
               end_time:
                 type: string
                 format: dd/mm/yyyy
-                example: 30/07/2021
           description: |
             A list of class schedules including a start date and an end date of a class.
         description:
@@ -435,21 +413,16 @@ components:
             A description of a course 
         image_path:
           type: string
-          example: /img/courses/card.jpg
           description: |
             A image path of a course
         features:
           type: array
           items:
             type: string
-            example:
-              - Learn the fundamentals of algorithms and data structures
-              - Build a solid foundation to become a Competitive Programming wizard
           description: |
             A list of features of a course
         level:
           type: string
-          example: Intermediate
           description: |
             The level of a course<br>
             Acceptable values are:
@@ -460,9 +433,6 @@ components:
           type: array
           items:
             type: string
-            example:
-              - DPCS200
-              - Programming Experience in C/C++
           description: |
              Courses, conditions, presimes, and status recommended to have before apply this course
         length:
@@ -470,13 +440,10 @@ components:
           properties:
             month:
               type: number
-              example: 6
             weeks:
               type: number
-              example: 26
             hours:
               type: number
-              example: 3
           description: |
             An object including course month, weeks, and hours
         price:
@@ -484,13 +451,10 @@ components:
           properties:
             $:
               type: number
-              example: 100
             hours:
               type: number
-              example: 3
             periodicity:
               type: string
-              example: weekly
           description: |
             An object including course price, hours, and periodicity
         available_schedules:
@@ -498,10 +462,6 @@ components:
           items:
             type: string
             format: dd/mm/yyyy
-            example:
-              - Tuesday 7pm - 9pm
-              - Thursday 7pm - 9pm
-              - Saturday 1pm - 3pm
           description:
             A list of available course schedules
 
