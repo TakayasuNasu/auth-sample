@@ -26,18 +26,40 @@ paths:
                 items:
                   $ref: "#/components/schemas/User"
                 example:
-                  - id: awexfiejfwefyeazeb
-                    first_name: David
+                  - id: 442c16a8a353
+                    first_name: Brooklyn
                     last_name: Beckham
+                    image_path: "https://sampledata.png"
                     birth: 31/12/2000
                     email: student1@gmail.com
                     phone: 123-456-7890
-                  - id: fhunjieljafeknksuh
+                    parent_first_name: David
+                    parent_last_name: Beckham
+                    parent_email: abc@sample.com
+                    parent_phone: 456-789-0123
+                    type: student
+                    updated_date: "2021-5-22 11:00:00"
+                    created_date: "2021-5-20 09:00:00"
+                  - id: 872a16v8b466
                     first_name: Eric
                     last_name: Cantona
+                    image_path: "https://sampledata.png"
                     birth: 13/01/1990
                     email: student2@gmail.com
-                    phone: 456-789-0123
+                    phone: 123-456-7890
+                    parent_first_name: ""
+                    parent_last_name: ""
+                    parent_email: ""
+                    parent_phone: ""
+                    type: student
+                    updated_date: "2021-5-22 11:00:00"
+                    created_date: "2021-5-20 09:00:00"
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /user/{token}:
     get:
@@ -361,6 +383,16 @@ components:
             Acceptable values are:
             - student
             - admin
+        updated_date:
+          type: string
+          format: yyyy-MM-dd hh:mm:ss
+          description: |
+            updated date
+        created_date:
+          type: string
+          format: yyyy-MM-dd hh:mm:ss
+          description: |
+            created date
 
     Course:
       type: object
@@ -464,6 +496,16 @@ components:
             format: dd/mm/yyyy
           description:
             A list of available course schedules
+        updated_date:
+          type: string
+          format: yyyy-MM-dd hh:mm:ss
+          description: |
+            updated date
+        created_date:
+          type: string
+          format: yyyy-MM-dd hh:mm:ss
+          description: |
+            created date
 
     Error:
       type: object
