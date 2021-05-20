@@ -11,10 +11,10 @@ security:
   - BasicAuth: []
 
 paths:
-  /students:
+  /user:
     get:
       tags:
-        - students
+        - user
       description: Get all students data.
       responses:
         200:
@@ -24,7 +24,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Student"
+                  $ref: "#/components/schemas/User"
                 example:
                   - id: 1
                     name: David Beckham
@@ -39,10 +39,10 @@ paths:
                     phone: 4564564567
                     address: Tokyo
 
-  /students/{token}:
+  /user/{token}:
     get:
       tags:
-        - students
+        - user
       description: Get specific student data by token.
       parameters:
         - $ref: "#/components/parameters/PageLimit"
@@ -52,7 +52,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Student"
+                $ref: "#/components/schemas/User"
               example:
                 id: 1
                 name: David Beckham
@@ -70,7 +70,7 @@ paths:
   /students/{token}/courses:
     get:
       tags:
-        - students
+        - user
       description: Get courses of specific student has.
       parameters:
         - $ref: "#/components/parameters/PageLimit"
@@ -306,61 +306,138 @@ components:
         type: integer
 
   schemas:
-    Student:
+    User:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-        name:
           type: string
+          description: |
+            User's social account unique token id
+        first_name:
+          type: string
+          description: |
+            User's first name
+        last_name:
+          type: string
+          description: |
+            User's last name
+        image_path:
+          type: string
+          description: |
+            The path of a user's profile image
         birth:
           type: string
-          format: date
+          example: 30/04/2021
+          format: dd/mm/yyyy
+          description: |
+            User's birth day
         email:
           type: string
-          format: email
+          description: |
+            User's email
         phone:
-          type: integer
-          minimum: 8
-          maximum: 16
-        address:
           type: string
-        course:
-          type: array
-          items:
-            $ref: "#/components/schemas/Course"
-        application:
-          $ref: "#/components/schemas/Application"
+          example: 000-000-0000
+          description: |
+            User's phone number
+        parent_first_name:
+          type: string
+          description: |
+            User's parents first name
+        parent_last_name:
+          type: string
+          description: |
+            User's parents last name
+        parent_email:
+          type: string
+          description: |
+            User's parents email
+        parent_phone:
+          type: string
+          example: 000-000-0000
+          description: |
+            User's parents phone number
+        type:
+          type: string
+          example: student
+          description: |
+            User's type<br>
+            Acceptable values are:
+            - student
+            - admin
+        status:
+          type: string
+          example: applied
+          description: |
+            User status<br>
+            Acceptable values are:
+            - wait list - who waits for a next course
+            - applied - who applied for a course but not paid yet
+            - registered - who applied for a course and paid
+            - resign - who quit a course
 
     Course:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-          example: 1
+          type: string
+          example: DPCS100#001
+          description: |
+            Unique course ID
         name:
           type: string
-          example: Python
-        duration:
+          example: ADVANCED COMPETITIVE PROGRAMMING
+          description: |
+            Course name
+        category:
           type: string
-          example: 20 Weeks (5 Months) - 2 hours per week
-        schedules:
+          example: cs
+          description: |
+            Course category
+        status:
+          type: string
+          example: active
+          description: |
+            Course status<br>
+            Acceptable values are:
+            - archived - finished course
+            - active - now opening course
+            - inactive - future course
+        start_date:
+          type: string
+          format: dd/mm/yyyy
+          example: 30/04/2021
+          description: |
+            course start date
+        end_date:
+          type: string
+          format: dd/mm/yyyy
+          example: 30/07/2021
+          description: |
+            course end date
+        class_schedules:
           type: array
           items:
-            type: string
-            format: date
-            example:
-              - 2021/05/10
-              - 2021/05/11
-              - 2021/05/12
+            properties:
+              start_time:
+                type: string
+                format: dd/mm/yyyy
+                example: 30/04”/2021
+              end_time:
+                type: string
+                format: dd/mm/yyyy
+                example: 30/07/2021
+          description: |
+            A list of class schedules including a start date and an end date of a class.
         description:
           type: string
-          example: Learn the fundamentals of algorithms and data structures. This course aims to help students to learn everything needed to participate in CCC - Junior Division competitions. We start from basics such as Mathematics Fundamentals, Searching/Sorting and Linear Data Structures. Then we dive into interesting challenges and tips/tricks on how to think algorithmically and solve problems efficiently.
+          description: |
+            A description of a course 
         image_path:
           type: string
           example: /img/courses/card.jpg
+          description: |
+            A image path of a course
         features:
           type: array
           items:
@@ -368,46 +445,65 @@ components:
             example:
               - Learn the fundamentals of algorithms and data structures
               - Build a solid foundation to become a Competitive Programming wizard
-              - How to think algorithmically and solve programming problems efficiently
+          description: |
+            A list of features of a course
         level:
           type: string
           example: Intermediate
+          description: |
+            The level of a course<br>
+            Acceptable values are:
+            - Beginner
+            - Intermediate
+            - Advanced
         prerequisites:
           type: array
           items:
             type: string
             example:
-              - DPCS100
-              - Basic knowledge of Python programming language
+              - DPCS200
+              - Programming Experience in C/C++
+          description: |
+             Courses, conditions, presimes, and status recommended to have before apply this course
+        length:
+          type: object
+          properties:
+            month:
+              type: number
+              example: 6
+            weeks:
+              type: number
+              example: 26
+            hours:
+              type: number
+              example: 3
+          description: |
+            An object including course month, weeks, and hours
         price:
           type: object
           properties:
-            price_unit:
-              type: integer
-              minimum: 1
-              example: 80
-            price_hours:
-              type: integer
-              example: 2
-            price_periodicity:
+            $:
+              type: number
+              example: 100
+            hours:
+              type: number
+              example: 3
+            periodicity:
               type: string
-              enum:
-                - Weekly
-                - Monthly
-
-    Application:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-            example: 1
-          status:
+              example: weekly
+          description: |
+            An object including course price, hours, and periodicity
+        available_schedules:
+          type: array
+          items:
             type: string
-            enum:
-              - waiting
-              - approved
+            format: dd/mm/yyyy
+            example:
+              - Tuesday 7pm - 9pm
+              - Thursday 7pm - 9pm
+              - Saturday 1pm - 3pm
+          description:
+            A list of available course schedules
 
     Error:
       type: object
