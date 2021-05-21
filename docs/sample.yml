@@ -47,8 +47,44 @@ paths:
             schema:
               type: "object"
               properties:
-                user-base-info:
-                  $ref: "#/definitions/user-base-info"
+                id:
+                  type: "string"
+                  description: |
+                    <span style="color: red; ">*required</span> token id
+                first_name:
+                  type: "string"
+                  description: |
+                    \<Optional> User's first name
+                last_name:
+                  type: "string"
+                  description: |
+                    \<Optional> User's last name
+                image_path:
+                  type: string
+                  description: |
+                    \<Optional> The path of a user's profile image
+                birth:
+                  type: string
+                  format: yyyy-mm-dd HH:MM:DD
+                  description:  |
+                    \<Optional> User's birth day
+                email:
+                  type: string
+                  format: email
+                  description:  |
+                    \<Optional> User's email
+                phone:
+                  type: string
+                  description:  |
+                    \<Optional> User's phone number
+              example:
+                - id: 442c16a8a353
+                  first_name: Brooklyn
+                  last_name: Beckham
+                  image_path: "https://sampledata.png"
+                  birth: "1994-01-24 00:00:00"
+                  email: student1@gmail.com
+                  phone: 123-456-7890
 
       responses:
         200:
@@ -56,26 +92,24 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  data:
-                    items:
-                      $ref: "#/components/schemas/User"
-                    example:
-                      - id: 442c16a8a353
-                        first_name: Brooklyn
-                        last_name: Beckham
-                        image_path: "https://sampledata.png"
-                        birth: 1994-01-24 00:00:00.000000
-                        email: student1@gmail.com
-                        phone: 123-456-7890
-                        parent_first_name": ""
-                        parent_last_name": ""
-                        parent_email: ""
-                        parent_phone: ""
-                        type: student
-                        updated_date: 2021-05-22T10:00:40.838Z
-                        created_date: 2021-05-20T22:00:40.464Z
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+                example:
+                  - id: 442c16a8a353
+                    first_name: Brooklyn
+                    last_name: Beckham
+                    image_path: "https://sampledata.png"
+                    birth: 1994-01-24 00:00:00.000000
+                    email: student1@gmail.com
+                    phone: 123-456-7890
+                    parent_first_name": ""
+                    parent_last_name": ""
+                    parent_email: ""
+                    parent_phone: ""
+                    type: student
+                    updated_date: "2021-05-22 10:00:40.838"
+                    created_date: "2021-05-20 22:00:40.464"
 
         default:
           description: error occurred
@@ -376,8 +410,8 @@ components:
             The path of a user's profile image
         birth:
           type: string
-          format: date-time
-          example: 1994-01-24 00:00:00.000000
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "1994-01-24 00:00:00.000"
           description: |
             User's birth day
         email:
@@ -426,14 +460,14 @@ components:
             - admin
         updated_date:
           type: string
-          format: date-time
-          example: 2021-05-22 10:00:40.838726
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: 2021-05-22 10:00:40.838
           description: |
             updated date
         created_date:
           type: string
-          format: date-time
-          example: 2021-05-20 22:00:40.464948
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: 2021-05-20 22:00:40.464
           description: |
             created date
 
@@ -575,8 +609,8 @@ components:
             The path of a user's profile image
         birth:
           type: string
-          format: date-time
-          example: 1994-01-24 00:00:00.000000
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: 1994-01-24 00:00:00.000
           description: |
             User's birth day
         email:
@@ -605,46 +639,3 @@ components:
               minimum: 100
               maximum: 600
               example: 190
-
-definitions:
-  user-base-info:
-    properties:
-      id:
-        type: "string"
-        description: |
-          <span style="color: red; ">*required</span> token id
-      first_name:
-        type: "string"
-        description: |
-          \<Optional> User's first name
-      last_name:
-        type: "string"
-        description: |
-          \<Optional> User's last name
-      image_path:
-        type: string
-        description: |
-          \<Optional> The path of a user's profile image
-      birth:
-        type: string
-        format: date-time
-        example: 1994-01-24 00:00:00.000000
-        description:  |
-          \<Optional> User's birth day
-      email:
-        type: string
-        format: email
-        description:  |
-          \<Optional> User's email
-      phone:
-        type: string
-        description:  |
-          \<Optional> User's phone number
-    example:
-      - id: 442c16a8a353
-        first_name: Brooklyn
-        last_name: Beckham
-        image_path: "https://sampledata.png"
-        birth: 1994-01-24 00:00:00.000000
-        email: student1@gmail.com
-        phone: 123-456-7890
