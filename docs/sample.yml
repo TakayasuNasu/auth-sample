@@ -327,8 +327,8 @@ components:
             The path of a user's profile image
         birth:
           type: string
-          format: date-time
-          example: 1994-01-24 00:00:00.000000
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "1994-01-24 00:00:00.000"
           description: |
             User's birth day
         email:
@@ -377,14 +377,14 @@ components:
             - admin
         updated_date:
           type: string
-          format: date-time
-          example: 2021-05-22 10:00:40.838726
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-22 10:00:40.838"
           description: |
             updated date
         created_date:
           type: string
-          format: date-time
-          example: 2021-05-20 22:00:40.464948
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-20 22:00:40.464"
           description: |
             created date
 
