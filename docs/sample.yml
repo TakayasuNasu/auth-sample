@@ -2,7 +2,9 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: DPCOde Academy API
-  description: DPCOde Academy API
+  description: |
+    DPCOde Academy API <br>
+    Basically for optional column, it returns a blank instead of null if there is no value.
 
 servers:
   - url: https://localhost:8000
@@ -25,19 +27,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
-                example:
-                  - id: 1
-                    name: David Beckham
-                    birth: 2000/12/12
-                    email: student1@gmail.com
-                    phone: 1231231233
-                    address: Vancouver
-                  - id: 2
-                    name: Eric Cantona
-                    birth: 1990/11/11
-                    email: student2@gmail.com
-                    phone: 4564564567
-                    address: Tokyo
+
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /user/{token}:
     get:
@@ -311,56 +307,86 @@ components:
       properties:
         id:
           type: string
+          example: 442c16a8a353
           description: |
             User's social account unique token id
         first_name:
           type: string
+          example: Brooklyn
           description: |
             User's first name
         last_name:
           type: string
+          example: Beckham
           description: |
             User's last name
         image_path:
           type: string
+          example: "https://sampledata.png"
           description: |
             The path of a user's profile image
         birth:
           type: string
-          format: dd/mm/yyyy
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "1994-01-24 00:00:00.000"
           description: |
             User's birth day
         email:
           type: string
+          format: email
+          example: student1@gmail.com
           description: |
             User's email
         phone:
           type: string
+          example: 123-456-7890
           description: |
             User's phone number
         parent_first_name:
           type: string
+          example: David
           description: |
+            Optional<br>
             User's parents first name
         parent_last_name:
           type: string
+          example: Beckham
           description: |
+            Optional<br>
             User's parents last name
         parent_email:
           type: string
+          format: email
+          example: parent1@gmail.com
           description: |
+            Optional<br>
             User's parents email
         parent_phone:
           type: string
+          example: 456-789-0123
           description: |
+            Optional<br>
             User's parents phone number
         type:
           type: string
+          example: student
           description: |
             User's type<br>
             Acceptable values are:
             - student
             - admin
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-22 10:00:40.838"
+          description: |
+            updated date
+        created_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-20 22:00:40.464"
+          description: |
+            created date
 
     Course:
       type: object
@@ -464,6 +490,16 @@ components:
             format: dd/mm/yyyy
           description:
             A list of available course schedules
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          description: |
+            updated date
+        created_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          description: |
+            created date
 
     Error:
       type: object
