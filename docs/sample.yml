@@ -35,6 +35,55 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+    post:
+      tags:
+        - user
+      summary: Create a new user with token id
+      requestBody:
+        description: Create a new user with token id
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                user-base-info:
+                  $ref: "#/definitions/user-base-info"
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    items:
+                      $ref: "#/components/schemas/User"
+                    example:
+                      - id: 442c16a8a353
+                        first_name: Brooklyn
+                        last_name: Beckham
+                        image_path: "https://sampledata.png"
+                        birth: 1994-01-24 00:00:00.000000
+                        email: student1@gmail.com
+                        phone: 123-456-7890
+                        parent_first_name": ""
+                        parent_last_name": ""
+                        parent_email: ""
+                        parent_phone: ""
+                        type: student
+                        updated_date: 2021-05-22T10:00:40.838Z
+                        created_date: 2021-05-20T22:00:40.464Z
+
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /user/{token}:
     get:
       tags:
@@ -501,6 +550,47 @@ components:
           description: |
             created date
 
+    CreateUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 442c16a8a353
+          description: |
+            User's social account unique token id
+        first_name:
+          type: string
+          example: Brooklyn
+          description: |
+            User's first name
+        last_name:
+          type: string
+          example: Beckham
+          description: |
+            User's last name
+        image_path:
+          type: string
+          example: "https://sampledata.png"
+          description: |
+            The path of a user's profile image
+        birth:
+          type: string
+          format: date-time
+          example: 1994-01-24 00:00:00.000000
+          description: |
+            User's birth day
+        email:
+          type: string
+          format: email
+          example: student1@gmail.com
+          description: |
+            User's email
+        phone:
+          type: string
+          example: 123-456-7890
+          description: |
+            User's phone number
+
     Error:
       type: object
       properties:
@@ -515,3 +605,46 @@ components:
               minimum: 100
               maximum: 600
               example: 190
+
+definitions:
+  user-base-info:
+    properties:
+      id:
+        type: "string"
+        description: |
+          <span style="color: red; ">*required</span> token id
+      first_name:
+        type: "string"
+        description: |
+          \<Optional> User's first name
+      last_name:
+        type: "string"
+        description: |
+          \<Optional> User's last name
+      image_path:
+        type: string
+        description: |
+          \<Optional> The path of a user's profile image
+      birth:
+        type: string
+        format: date-time
+        example: 1994-01-24 00:00:00.000000
+        description:  |
+          \<Optional> User's birth day
+      email:
+        type: string
+        format: email
+        description:  |
+          \<Optional> User's email
+      phone:
+        type: string
+        description:  |
+          \<Optional> User's phone number
+    example:
+      - id: 442c16a8a353
+        first_name: Brooklyn
+        last_name: Beckham
+        image_path: "https://sampledata.png"
+        birth: 1994-01-24 00:00:00.000000
+        email: student1@gmail.com
+        phone: 123-456-7890
