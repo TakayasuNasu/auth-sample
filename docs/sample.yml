@@ -492,12 +492,12 @@ components:
             A list of available course schedules
         updated_date:
           type: string
-          format: yyyy-MM-dd hh:mm:ss
+          format: yyyy-MM-dd HH:mm:ss.sss
           description: |
             updated date
         created_date:
           type: string
-          format: yyyy-MM-dd hh:mm:ss
+          format: yyyy-MM-dd HH:mm:ss.sss
           description: |
             created date
 
