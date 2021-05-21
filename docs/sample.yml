@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: DPCOde Academy API
   description: |
-    DPCOde Academy API
+    DPCOde Academy API <br>
     Basically for optional column, it returns a blank instead of null if there is no value.
 
 servers:
