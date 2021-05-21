@@ -2,7 +2,9 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: DPCOde Academy API
-  description: DPCOde Academy API
+  description: |
+    DPCOde Academy API
+    Basically for optional column, it returns a blank instead of null if there is no value.
 
 servers:
   - url: https://localhost:8000
@@ -25,35 +27,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
-                example:
-                  - id: 442c16a8a353
-                    first_name: Brooklyn
-                    last_name: Beckham
-                    image_path: "https://sampledata.png"
-                    birth: 31/12/2000
-                    email: student1@gmail.com
-                    phone: 123-456-7890
-                    parent_first_name: David
-                    parent_last_name: Beckham
-                    parent_email: abc@sample.com
-                    parent_phone: 456-789-0123
-                    type: student
-                    updated_date: "2021-5-22 11:00:00"
-                    created_date: "2021-5-20 09:00:00"
-                  - id: 872a16v8b466
-                    first_name: Eric
-                    last_name: Cantona
-                    image_path: "https://sampledata.png"
-                    birth: 13/01/1990
-                    email: student2@gmail.com
-                    phone: 123-456-7890
-                    parent_first_name: ""
-                    parent_last_name: ""
-                    parent_email: ""
-                    parent_phone: ""
-                    type: student
-                    updated_date: "2021-5-22 11:00:00"
-                    created_date: "2021-5-20 09:00:00"
+
         default:
           description: error occurred
           content:
@@ -333,51 +307,69 @@ components:
       properties:
         id:
           type: string
+          example: 442c16a8a353
           description: |
             User's social account unique token id
         first_name:
           type: string
+          example: Brooklyn
           description: |
             User's first name
         last_name:
           type: string
+          example: Beckham
           description: |
             User's last name
         image_path:
           type: string
+          example: "https://sampledata.png"
           description: |
             The path of a user's profile image
         birth:
           type: string
-          format: dd/mm/yyyy
+          format: date-time
+          example: 1994-01-24 00:00:00.000000
           description: |
             User's birth day
         email:
           type: string
+          format: email
+          example: student1@gmail.com
           description: |
             User's email
         phone:
           type: string
+          example: 123-456-7890
           description: |
             User's phone number
         parent_first_name:
           type: string
+          example: David
           description: |
+            Optional<br>
             User's parents first name
         parent_last_name:
           type: string
+          example: Beckham
           description: |
+            Optional<br>
             User's parents last name
         parent_email:
           type: string
+          format: email
+          example: parent1@gmail.com
           description: |
+            Optional<br>
             User's parents email
         parent_phone:
           type: string
+          example: 456-789-0123
           description: |
+            Optional<br>
             User's parents phone number
         type:
           type: string
+          example: student
           description: |
             User's type<br>
             Acceptable values are:
@@ -385,12 +377,14 @@ components:
             - admin
         updated_date:
           type: string
-          format: yyyy-MM-dd hh:mm:ss
+          format: date-time
+          example: 2021-05-22 10:00:40.838726
           description: |
             updated date
         created_date:
           type: string
-          format: yyyy-MM-dd hh:mm:ss
+          format: date-time
+          example: 2021-05-20 22:00:40.464948
           description: |
             created date
 
