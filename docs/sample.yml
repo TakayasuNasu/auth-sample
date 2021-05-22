@@ -209,6 +209,89 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  # Tak
+  # /user/{token}/course:
+  #   get:
+  #     tags:
+  #       - user
+  #     description: Get all course-ids that a user has.
+  #     parameters:
+  #       - $ref: "#/components/parameters/PageLimit"
+  #     responses:
+  #       200:
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Status"
+  #               type: array  
+  #             example:
+  #               - course_id: DPCS100#1
+  #                 status: registered
+  #               - course_id: DPCS100#2
+  #                 status: wait list
+  #               - course_id: DPCS101#1
+  #                 status: resigned
+                
+
+  #       default:
+  #         description: error occurred
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
+
+  # Tak
+  # /user/{token}/course/{id}:
+  #   get:
+  #     tags:
+  #       - status
+  #     description: Get the user's status for the course.
+  #     parameters:
+  #       - $ref: "#/components/parameters/PageLimit"
+  #     responses:
+  #       200:
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Status"
+  #             example:
+  #               status: registered
+
+  #       default:
+  #         description: error occurred
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
+
+  # Tak
+    put:
+      tags:
+        - status
+      description: Update the user's status for the course.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Status"
+            example:
+              status: registered
+      responses:
+        200:
+          description: updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
   /courses:
     get:
       tags:
@@ -292,6 +375,13 @@ paths:
       tags:
         - courses
       description: Get specific courses data by id.
+      parameters:
+      - name: id
+        in: path
+        description: Course ID
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: OK
@@ -305,25 +395,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+    
+    # Tak
     put:
       tags:
         - courses
-      description: Update specific course data by id.
+      description: Update the status of the course by its id.
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Course"
             example:
-              id: 3
-              name: Swift
-              schedules:
-                - 2021/05/17
-              description: Swift fro beginners.
-              image_path: /img/courses/card.jpg
-              price: 4000
-              status: normal
+              id: DPCS100#1
+              status: active
       responses:
         200:
           description: updated
@@ -331,15 +416,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Course"
-              example:
-                id: 3
-                name: Swift
-                schedules:
-                  - 2021/05/17
-                description: Swift fro beginners.
-                image_path: /img/courses/card.jpg
-                price: 4000
-                status: normal
         default:
           description: error occurred
           content:
@@ -376,6 +452,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  
+  #Tak
+  /courses/{id}/user:
+    get:
+      tags:
+        - courses
+      description: Get all user-ids that a course has.
+      parameters:
+      - name: id
+        in: path
+        description: Course ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+                type: array  
+              example:
+                - user_id: 442c16a8a353
+                  status: registered
+                - user_id: ffaaafecc0e9
+                  status: wait list
+                - user_id: d55c4d00a85e
+                  status: applied
+              
+
+
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
 
   /courses/{course_id}/user:
     post:
@@ -506,118 +621,175 @@ components:
           description: |
             created date
 
+  # Tak
     Course:
       type: object
       properties:
         id:
           type: string
+          example: DPCS100#001
           description: |
-            Unique course ID
+            Unique course ID. First word until # indicates the course prime id. The second word (after #) indicates seasons. For example, if a course has three times in a year, it will be like,
+            - Jan - Apr
+              - DPCS100#1
+            - May - Aug
+              - DPCS100#2
+            - Sep - Dec
+              - DPCS100#3
         name:
           type: string
+          example: ADVANCED COMPETITIVE PROGRAMMING
           description: |
-            Course name
+            Course name.
         category:
           type: string
+          example: cs
           description: |
-            Course category
+            Course category. <br>
+            Acceptable values are:
+            - cs
+            - mobile
+            - web
+            - math
         status:
           type: string
+          example: active
           description: |
             Course status<br>
             Acceptable values are:
-            - archived - finished course
-            - active - now opening course
-            - inactive - future course
+            - archived
+              - A course which has already finished
+            - active
+              - A course which is now on going
+            - inactive
+              - A course which is will be "active" in the future. If an user apply for the course which has this status, it will be "wait list"
         start_date:
           type: string
-          format: dd/mm/yyyy
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-09-01 00:00:00.000"
           description: |
-            course start date
+            The date when the course starts.
         end_date:
           type: string
-          format: dd/mm/yyyy
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-09-16 00:00:00.000"
           description: |
-            course end date
+            The date when the course ends.
         class_schedules:
           type: array
           items:
             properties:
               start_time:
                 type: string
-                format: dd/mm/yyyy
+                format: yyyy-MM-dd HH:mm:ss.sss
+                example: "2021-09-01 16:00.000"
               end_time:
                 type: string
-                format: dd/mm/yyyy
+                format: yyyy-MM-dd HH:mm:ss.sss
+                example: "2021-09-01 18:00.000"
           description: |
-            A list of class schedules including a start date and an end date of a class.
+            A list of class schedules including a start date and an end date of the class.
         description:
           type: string
+          example: Learn the basics of programming and computer science through Python. This course aims to teach everyone the basics of programming. You will learn to create simple computer programs, develop problem-solving skills, and work through fun challenges. Once a student completes this course, they will be ready to take more advanced courses.
           description: |
-            A description of a course 
+            A description of the course.
         image_path:
           type: string
+          example: https://dpcode.academy/courses/dpcs100.svg
           description: |
-            A image path of a course
+            An image path used for thumbnail.
         features:
           type: array
+          example: ["A broad and robust understanding of computer science and programming.", "Explore fundamental programming concepts in Python", "How to think algorithmically and solve programming problems efficiently"]
           items:
             type: string
           description: |
-            A list of features of a course
+            A list of features of the course
         level:
           type: string
+          example: Beginner
           description: |
-            The level of a course<br>
+            A level of the course<br>
             Acceptable values are:
             - Beginner
             - Intermediate
             - Advanced
         prerequisites:
           type: array
+          example: [ "DPCS101", "Grade 11 or higher","Prior Programming Experience"]
           items:
             type: string
           description: |
-             Courses, conditions, presimes, and status recommended to have before apply this course
+            Courses, conditions, premise, or status that are recommended for users to have before applying for the course.
         length:
           type: object
           properties:
             month:
               type: number
+              example: 6
             weeks:
               type: number
+              example: 26
             hours:
               type: number
+              example: 3
           description: |
-            An object including course month, weeks, and hours
+            A course length. "month" and "weeks" are representing mostly same thing. "hours:" indicates hours per week. If "month" is 6, "weeks" is 26, and "hours" is 3, it can be translated into "26 Weeks (6 Months) - 3 hours per week".
         price:
-          type: object
-          properties:
-            $:
-              type: number
-            hours:
-              type: number
-            periodicity:
-              type: string
+          type: number
+          example: 100000
           description: |
-            An object including course price, hours, and periodicity
+            A total price costs for the course. CAD.
         available_schedules:
           type: array
+          example: [ "Tuesday 7pm - 8:30pm", "Thursday 7pm - 8:30pm", "Saturday 1pm - 4pm"]
           items:
             type: string
-            format: dd/mm/yyyy
           description:
-            A list of available course schedules
-        updated_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          description: |
-            updated date
+            A list of available course schedules.
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-17 20:46:11.716"
           description: |
-            created date
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-18 15:22:05.292"
+          description: |
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+
+  # Tak
+    Status:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: eyJz9sdfsdfsdfsd
+          description: |
+            Unique user ID which belongs to the course_id.
+        course_id:
+          type: string
+          example: DPCS100#1
+          description: |
+            Unique course ID which belongs to the user_id. 
+        status:
+          type: string
+          example: registered
+          description: |
+            A user's status for the course (course_id).<br>
+            There are four status: <br>
+            - wait list
+              - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+            - applied
+              - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+            - registered
+              - A user who already registered (got interview and paid tuition free) to the course. 
+            - resign
+              - A user who quit the class for some reason.
+
 
   # Tak
     Status:
