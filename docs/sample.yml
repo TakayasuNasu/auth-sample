@@ -40,7 +40,9 @@ paths:
         - user
       summary: Create a new user with token id
       requestBody:
-        description: Create a new user with token id
+        description: | 
+          Create a new user with token id. <br>
+          id is required, but other values are optional
         required: true
         content:
           application/json:
@@ -65,7 +67,7 @@ paths:
                     \<Optional> The path of a user's profile image
                 birth:
                   type: string
-                  format: yyyy-mm-dd HH:MM:DD
+                  format: yyyy-MM-dd HH:mm:ss.sss
                   description:  |
                     \<Optional> User's birth day
                 email:
@@ -100,7 +102,7 @@ paths:
                     first_name: Brooklyn
                     last_name: Beckham
                     image_path: "https://sampledata.png"
-                    birth: 1994-01-24 00:00:00.000000
+                    birth: "1994-01-24 00:00:00.000"
                     email: student1@gmail.com
                     phone: 123-456-7890
                     parent_first_name": ""
@@ -122,7 +124,8 @@ paths:
     get:
       tags:
         - user
-      description: Get specific student data by token.
+      description: |
+        Get specific student data by token.
       parameters:
         - $ref: "#/components/parameters/PageLimit"
       responses:
@@ -461,13 +464,13 @@ components:
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: 2021-05-22 10:00:40.838
+          example: "2021-05-22 10:00:40.838"
           description: |
             updated date
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: 2021-05-20 22:00:40.464
+          example: "2021-05-20 22:00:40.464"
           description: |
             created date
 
@@ -575,55 +578,14 @@ components:
             A list of available course schedules
         updated_date:
           type: string
-          format: yyyy-MM-dd hh:mm:ss
+          format: yyyy-MM-dd HH:mm:ss.sss
           description: |
             updated date
         created_date:
           type: string
-          format: yyyy-MM-dd hh:mm:ss
+          format: yyyy-MM-dd HH:mm:ss.sss
           description: |
             created date
-
-    CreateUser:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 442c16a8a353
-          description: |
-            User's social account unique token id
-        first_name:
-          type: string
-          example: Brooklyn
-          description: |
-            User's first name
-        last_name:
-          type: string
-          example: Beckham
-          description: |
-            User's last name
-        image_path:
-          type: string
-          example: "https://sampledata.png"
-          description: |
-            The path of a user's profile image
-        birth:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: 1994-01-24 00:00:00.000
-          description: |
-            User's birth day
-        email:
-          type: string
-          format: email
-          example: student1@gmail.com
-          description: |
-            User's email
-        phone:
-          type: string
-          example: 123-456-7890
-          description: |
-            User's phone number
 
     Error:
       type: object
