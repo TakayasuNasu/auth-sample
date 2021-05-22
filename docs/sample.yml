@@ -210,61 +210,61 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   # Tak
-  /user/{token}/course:
-    get:
-      tags:
-        - user
-      description: Get all course-ids that a user has.
-      parameters:
-        - $ref: "#/components/parameters/PageLimit"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Status"
-                type: array  
-              example:
-                - course_id: DPCS100#1
-                  status: registered
-                - course_id: DPCS100#2
-                  status: wait list
-                - course_id: DPCS101#1
-                  status: resigned
+  # /user/{token}/course:
+  #   get:
+  #     tags:
+  #       - user
+  #     description: Get all course-ids that a user has.
+  #     parameters:
+  #       - $ref: "#/components/parameters/PageLimit"
+  #     responses:
+  #       200:
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Status"
+  #               type: array  
+  #             example:
+  #               - course_id: DPCS100#1
+  #                 status: registered
+  #               - course_id: DPCS100#2
+  #                 status: wait list
+  #               - course_id: DPCS101#1
+  #                 status: resigned
                 
 
-        default:
-          description: error occurred
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  #       default:
+  #         description: error occurred
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
 
   # Tak
-  /user/{token}/course/{id}:
-    get:
-      tags:
-        - status
-      description: Get the user's status for the course.
-      parameters:
-        - $ref: "#/components/parameters/PageLimit"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Status"
-              example:
-                status: registered
+  # /user/{token}/course/{id}:
+  #   get:
+  #     tags:
+  #       - status
+  #     description: Get the user's status for the course.
+  #     parameters:
+  #       - $ref: "#/components/parameters/PageLimit"
+  #     responses:
+  #       200:
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Status"
+  #             example:
+  #               status: registered
 
-        default:
-          description: error occurred
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+  #       default:
+  #         description: error occurred
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Error"
 
   # Tak
     put:
@@ -452,6 +452,13 @@ paths:
       tags:
         - courses
       description: Get all user-ids that a course has.
+      parameters:
+      - name: id
+        in: path
+        description: Course ID
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: OK
@@ -461,12 +468,13 @@ paths:
                 $ref: "#/components/schemas/Status"
                 type: array  
               example:
-                - course_id: 442c16a8a353
+                - user_id: 442c16a8a353
                   status: registered
-                - course_id: ffaaafecc0e9
+                - user_id: ffaaafecc0e9
                   status: wait list
-                - course_id: d55c4d00a85e
+                - user_id: d55c4d00a85e
                   status: applied
+              
 
 
         default:
@@ -617,13 +625,13 @@ components:
               - A course which is will be "active" in the future. If an user apply for the course which has this status, it will be "wait list"
         start_date:
           type: string
-          format: yyyy/MM/dd HH:mm:ss.sss
+          format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-09-01 00:00:00.000"
           description: |
             The date when the course starts.
         end_date:
           type: string
-          format: yyyy/MM/dd HH:mm:ss.sss
+          format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-09-16 00:00:00.000"
           description: |
             The date when the course ends.
@@ -633,11 +641,11 @@ components:
             properties:
               start_time:
                 type: string
-                format: yyyy/MM/dd HH:mm:ss.sss
+                format: yyyy-MM-dd HH:mm:ss.sss
                 example: "2021-09-01 16:00.000"
               end_time:
                 type: string
-                format: yyyy/MM/dd HH:mm:ss.sss
+                format: yyyy-MM-dd HH:mm:ss.sss
                 example: "2021-09-01 18:00.000"
           description: |
             A list of class schedules including a start date and an end date of the class.
@@ -702,16 +710,16 @@ components:
             A list of available course schedules.
         created_date:
           type: string
-          format: yyyy/MM/dd HH:mm:ss.sss
+          format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-06-17 20:46:11.716"
           description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy/MM/dd hh:mm:ss
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
         updated_date:
           type: string
-          format: yyyy/MM/dd HH:mm:ss.sss
+          format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-06-18 15:22:05.292"
           description: |
-            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy/MM/dd hh:mm:ss
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
 
   # Tak
     Status:
