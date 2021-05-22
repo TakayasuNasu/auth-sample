@@ -451,7 +451,7 @@ paths:
     get:
       tags:
         - courses
-      description: Get all user-ids that a course has by the course id.
+      description: Get all user-ids that a course has.
       responses:
         200:
           description: OK
