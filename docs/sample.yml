@@ -492,24 +492,30 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   # Daiki
-  /courses/user:
     post:
       tags:
         - courses
       description: Add a user to a course
+      parameters:
+      - name: user-id
+        in: header
+        example: eyJz9sdfsdfsdfsd
+        description: User ID (token id)
+        required: true
+        schema:
+          type: string
+      - name: course-id
+        in: path
+        example: DPCS100#1
+        description: Course ID
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                user_id:
-                  type: string
-                  description: |
-                    <span style="color: red; ">*required</span> A User's social account unique token id.
-                course_id:
-                  type: string
-                  description: |
-                    <span style="color: red; ">*required</span> A Unique course ID.
                 user_status:
                   type: string
                   description: |
@@ -524,8 +530,6 @@ paths:
                     - resign
                       - A user who quit the class for some reason.
               example:
-                  user_id: eyJz9sdfsdfsdfsd
-                  course_id: DPCS100#001
                   user_status: registered
 
       responses:
@@ -535,7 +539,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Status"
-
 
 components:
   parameters:
