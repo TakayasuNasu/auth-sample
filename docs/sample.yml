@@ -35,6 +35,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+    # Daiki
     post:
       tags:
         - user
@@ -110,8 +111,8 @@ paths:
                     parent_email: ""
                     parent_phone: ""
                     type: student
-                    updated_date: "2021-05-22 10:00:40.838"
                     created_date: "2021-05-20 22:00:40.464"
+                    updated_date: "2021-05-22 10:00:40.838"
 
         default:
           description: error occurred
@@ -371,6 +372,7 @@ paths:
                 $ref: "#/components/schemas/Course"
 
   /courses/{id}:
+    # Daiki
     get:
       tags:
         - courses
@@ -489,17 +491,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+  # Daiki
+  /courses/user:
     post:
       tags:
         - courses
       description: Add a user to a course
-      parameters:
-      - name: course_id
-        in: path
-        description: Course id
-        required: true
-        schema:
-          type: string 
       requestBody:
         content:
           application/json:
@@ -508,11 +505,28 @@ paths:
                 user_id:
                   type: string
                   description: |
-                    <span style="color: red; ">*required</span> User's social account unique token id
+                    <span style="color: red; ">*required</span> A User's social account unique token id.
+                course_id:
+                  type: string
+                  description: |
+                    <span style="color: red; ">*required</span> A Unique course ID.
+                user_status:
+                  type: string
+                  description: |
+                    <span style="color: red; ">*required</span> A user's status for the course (course_id).<br>
+                    There are four status: <br>
+                    - wait list
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                    - applied
+                      - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                    - registered
+                      - A user who already registered (got interview and paid tuition free) to the course. 
+                    - resign
+                      - A user who quit the class for some reason.
               example:
-                - user_id: 442c16a8a353
-                  status: applied
-
+                  user_id: eyJz9sdfsdfsdfsd
+                  course_id: DPCS100#001
+                  user_status: registered
 
       responses:
         200:
@@ -533,6 +547,7 @@ components:
         type: integer
 
   schemas:
+    # Daiki
     User:
       type: object
       properties:
@@ -606,18 +621,18 @@ components:
             Acceptable values are:
             - student
             - admin
-        updated_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-05-22 10:00:40.838"
-          description: |
-            updated date
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-05-20 22:00:40.464"
           description: |
             created date
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-22 10:00:40.838"
+          description: |
+            updated date
 
   # Tak
     Course:
@@ -787,6 +802,18 @@ components:
               - A user who already registered (got interview and paid tuition free) to the course. 
             - resign
               - A user who quit the class for some reason.
+        created_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-17 20:46:11.716"
+          description: |
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-18 15:22:05.292"
+          description: |
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
 
     Error:
       type: object
