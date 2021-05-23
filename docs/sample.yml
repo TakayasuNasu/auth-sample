@@ -375,6 +375,13 @@ paths:
       tags:
         - courses
       description: Get specific courses data by id.
+      parameters:
+      - name: id
+        in: path
+        description: Course ID
+        required: true
+        schema:
+          type: string
       responses:
         200:
           description: OK
