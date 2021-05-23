@@ -540,6 +540,48 @@ paths:
               schema:
                 $ref: "#/components/schemas/Status"
 
+  /send-email:
+  # Daiki
+    post:
+      tags:
+        - Email
+      description: Send email
+      parameters:
+      - name: course-id
+        in: query
+        description: Course ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                user_status:
+                  type: string
+                  description: |
+                    <span style="color: red; ">*required</span> A user's status for the course (course_id).<br>
+                    There are four status: <br>
+                    - wait list
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                    - applied
+                      - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                    - registered
+                      - A user who already registered (got interview and paid tuition free) to the course. 
+                    - resign
+                      - A user who quit the class for some reason.
+              example:
+                  user_status: registered
+
+      responses:
+        200:
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Status"
+
 components:
   parameters:
     PageLimit:
