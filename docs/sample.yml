@@ -456,13 +456,13 @@ paths:
                 $ref: "#/components/schemas/Error"
   
   #Tak
-  /courses/{course_id}/user:
+  /courses/{id}/user:
     get:
       tags:
         - courses
       description: Get all user-ids that a course has.
       parameters:
-      - name: course_id
+      - name: id
         in: path
         description: Course ID
         required: true
