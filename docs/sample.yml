@@ -13,6 +13,47 @@ security:
   - BasicAuth: []
 
 paths:
+  # Koji
+  /oauth2/userInfo:
+    get:
+      tags:
+        - cognito
+      description: Get user info from social media
+      parameters:
+        - $ref: "#/components/parameters/UserInfoFromSocialMedia"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                sub: '0be75991-gk2h-2334-184a-e224e28slffg'
+                email_verified: 'false'
+                phone_number_verified: 'false'
+                given_name: 'Martin'
+                family_name: 'Garrix'
+                email: 'martin@mail.com'
+                username: 'google_101304123810377524376'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+                schema:
+                  type: object
+                example:
+                  error: invalid_token
+                  error_description: Access token is expired or user has globally signed out, disabled or been deleted.
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                error: invalid_request
+                error_description: No authorization header set
   /user:
     get:
       tags:
@@ -542,6 +583,15 @@ paths:
 
 components:
   parameters:
+    # Koji
+    UserInfoFromSocialMedia:
+        name: Authorization
+        in: header
+        description: identify user by access token
+        required: true
+        example: Beaer ACCESS_TOKEN
+        schema:
+          type: string
     PageLimit:
       name: limit
       in: query
@@ -550,6 +600,31 @@ components:
         type: integer
 
   schemas:
+  # Koji
+    User from Cognito:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: users id in cognito
+        username:
+          type: string
+          description: users username in cognito
+        email_verified:
+          type: boolean
+          description: whether if email is verified
+        phone_number_verified:
+          type: boolean
+          description: (optional) whether if phone number is verified
+        given_name:
+          type: string
+          description: (optional) user's given name
+        family_name:
+          type: string
+          description: (optional) user's family name
+        email:
+          type: string
+          description: (optional) user's email
     # Daiki
     User:
       type: object
