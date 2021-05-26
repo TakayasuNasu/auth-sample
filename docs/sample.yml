@@ -18,7 +18,7 @@ paths:
     get:
       tags:
         - cognito
-      description: Get user info from social media
+      description: Get user info from social media.
       parameters:
         - $ref: "#/components/parameters/UserInfoFromSocialMedia"
       responses:
@@ -27,7 +27,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cognito"
               example:
                 sub: '0be75991-gk2h-2334-184a-e224e28slffg'
                 email_verified: 'false'
@@ -41,7 +43,8 @@ paths:
           content:
             application/json:
                 schema:
-                  type: object
+                  type: array
+                  $ref: "#/components/schemas/CognitoError"
                 example:
                   error: invalid_token
                   error_description: Access token is expired or user has globally signed out, disabled or been deleted.
@@ -50,7 +53,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                type: array
+                $ref: "#/components/schemas/CognitoError"
               example:
                 error: invalid_request
                 error_description: No authorization header set
@@ -601,30 +605,37 @@ components:
 
   schemas:
   # Koji
-    User from Cognito:
+    Cognito:
       type: object
       properties:
         sub:
           type: string
-          description: users id in cognito
+          description: |
+            users id in cognito
         username:
           type: string
-          description: users username in cognito
+          description: |
+            users username in cognito
         email_verified:
           type: boolean
-          description: whether if email is verified
+          description: |
+            whether if email is verified
         phone_number_verified:
           type: boolean
-          description: (optional) whether if phone number is verified
+          description: |
+            \<Optional> whether if phone number is verified
         given_name:
           type: string
-          description: (optional) user's given name
+          description: |
+            \<Optional> user's given name
         family_name:
           type: string
-          description: (optional) user's family name
+          description: |
+            \<Optional> user's family name
         email:
           type: string
-          description: (optional) user's email
+          description: |
+            \<Optional> user's email
     # Daiki
     User:
       type: object
@@ -892,7 +903,15 @@ components:
           example: "2021-06-18 15:22:05.292"
           description: |
             Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
-
+    CognitoError:
+      type: object
+      properties:
+        error:
+          type: object
+          description: error title
+        error_description:
+          type: string
+          description: error detail    
     Error:
       type: object
       properties:
