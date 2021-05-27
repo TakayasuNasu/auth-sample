@@ -17,7 +17,7 @@ paths:
   /users:
     get:
       tags:
-        - user
+        - users
       description: Get all students data.
       responses:
         200:
@@ -39,7 +39,7 @@ paths:
     # Daiki
     post:
       tags:
-        - user
+        - users
       summary: Create a new user with token id
       requestBody:
         description: | 
@@ -126,7 +126,7 @@ paths:
   /users/detail:
     get:
       tags:
-        - user
+        - users
       description: Get a specific user data by the token.
       parameters:
         - $ref: "#/components/parameters/User-id"       
@@ -148,7 +148,7 @@ paths:
   /users/courses:
     get:
       tags:
-        - user
+        - users
       description: Get all course-ids that a user has.
       parameters:
         - $ref: "#/components/parameters/User-id"
@@ -158,8 +158,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Status"
-                type: array  
+                type: array
+                items:
+                  properties:
+                    course_id:
+                      type: string
+                      description: "Unique course ID which belongs to the user_id."
+                    status:
+                      type: string
+                      description: | 
+                        A user's status for the course (course_id).
+                        There are four status
+                        - wait list
+                        A user who applied but not in the process because the course is not ready (the course is "inactive").
+                        - applied
+                        A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                        - registered
+                        A user who already registered (got interview and paid tuition free) to the course.
+                        - resign
+                        A user who quit the class for some reason.
               example:
                 - course_id: DPCS100#1
                   status: registered
@@ -175,10 +192,10 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   # Tak
-  /users/status/courses/{course_id}:
+  /users/{course_id}/status:
     get:
       tags:
-        - user
+        - users
       description: Get the user's status for the course.
       parameters:
       - $ref: "#/components/parameters/User-id"   
@@ -189,11 +206,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Status"
-              # example:
-              #   user_id: eyJz9sdfsdfsdfsd
-              #   course_id: DPCS100#001
-              #   status: registered
+                properties:
+                  status:
+                    type: string
+                    description: | 
+                      A user's status for the course (course_id).
+                      There are four status
+                      - wait list
+                      A user who applied but not in the process because the course is not ready (the course is "inactive").
+                      - applied
+                      A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                      - registered
+                      A user who already registered (got interview and paid tuition free) to the course.
+                      - resign
+                      A user who quit the class for some reason.
+              example:
+                status: "registered"
 
         default:
           description: error occurred
@@ -205,7 +233,7 @@ paths:
   # Tak
     put:
       tags:
-        - user
+        - users
       description: Update the user's status for the course.
       parameters:
       - $ref: "#/components/parameters/User-id"   
@@ -214,7 +242,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Status"
+              properties:
+                status:
+                  type: string
+                  description: |
+                    <span style="color: red; ">*required</span> A user's status for the course (course_id).<br>
+                    There are four status: <br>
+                    - wait list
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                    - applied
+                      - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                    - registered
+                      - A user who already registered (got interview and paid tuition free) to the course. 
+                    - resign
+                      - A user who quit the class for some reason.
             example:
               status: registered
       responses:
@@ -232,6 +273,7 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   /courses:
+  # Yasu
     get:
       tags:
         - courses
@@ -245,31 +287,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Course"
-    put:
-      tags:
-        - courses
-      description: Create a new Course.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Course"
-            example:
-              name: Java
-              schedules:
-                - 2021/05/15
-                - 2021/05/16
-              description: Java fro beginners.
-              image_path: /img/courses/card.jpg
-              price: 2799
-              status: hard
-      responses:
-        200:
-          description: created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Course"
 
   /courses/{course_id}:
     # Daiki
@@ -302,7 +319,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Course"
+              type: object
+              properties:
+                course_id:
+                  type: string
+                  example: DPCS100#001
+                  description: |
+                    Unique course ID. First word until # indicates the course prime id. The second word (after #) indicates seasons. For example, if a course has three times in a year, it will be like,
+                    - Jan - Apr
+                      - DPCS100#1
+                    - May - Aug
+                      - DPCS100#2
+                    - Sep - Dec
+                      - DPCS100#3
+                status:
+                  type: string
+                  example: registered
+                  description: |
+                    A user's status for the course (course_id).<br>
+                    There are four status: <br>
+                    - wait list
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                    - applied
+                      - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                    - registered
+                      - A user who already registered (got interview and paid tuition free) to the course. 
+                    - resign
+                      - A user who quit the class for some reason.
+                
             example:
               course_id: DPCS100#1
               status: active
@@ -320,35 +364,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    delete:
-      tags:
-        - courses
-      description: Delete specific course data by its id.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Course"
-            example:
-              course_id: DPCS100#2
-      responses:
-        200:
-          description: deleted
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  course_id:
-                    type: integer
-              example:
-                course_id: DPCS100#2
-        default:
-          description: error occurred
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
   
   #Tak
   /courses/{course_id}/users:
@@ -364,8 +379,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Status"
                 type: array  
+                items:
+                  properties:
+                    user_id:
+                      type: string
+                      description: "Unique user ID which belongs to the course_id."
+                    status:
+                      type: string
+                      description: | 
+                        A user's status for the course (course_id).
+                        There are four status
+                        - wait list
+                        A user who applied but not in the process because the course is not ready (the course is "inactive").
+                        - applied
+                        A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                        - registered
+                        A user who already registered (got interview and paid tuition free) to the course.
+                        - resign
+                        A user who quit the class for some reason.
               example:
                 - user_id: 442c16a8a353
                   status: registered
