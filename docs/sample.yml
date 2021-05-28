@@ -13,6 +13,7 @@ security:
   - BasicAuth: []
 
 paths:
+
   # Koji
   /oauth2/userInfo:
     get:
@@ -58,10 +59,10 @@ paths:
               example:
                 error: invalid_request
                 error_description: No authorization header set
-  /user:
+  /users:
     get:
       tags:
-        - user
+        - users
       description: Get all students data.
       responses:
         200:
@@ -83,7 +84,7 @@ paths:
     # Daiki
     post:
       tags:
-        - user
+        - users
       summary: Create a new user with token id
       requestBody:
         description: | 
@@ -95,7 +96,7 @@ paths:
             schema:
               type: "object"
               properties:
-                id:
+                user_id:
                   type: "string"
                   description: |
                     <span style="color: red; ">*required</span> token id
@@ -126,7 +127,7 @@ paths:
                   description:  |
                     \<Optional> User's phone number
               example:
-                - id: 442c16a8a353
+                - user_id: 442c16a8a353
                   first_name: Brooklyn
                   last_name: Beckham
                   image_path: "https://sampledata.png"
@@ -144,7 +145,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/User"
                 example:
-                  - id: 442c16a8a353
+                  - user_id: 442c16a8a353
                     first_name: Brooklyn
                     last_name: Beckham
                     image_path: "https://sampledata.png"
@@ -156,8 +157,8 @@ paths:
                     parent_email: ""
                     parent_phone: ""
                     type: student
-                    created_date: "2021-05-20 22:00:40.464"
-                    updated_date: "2021-05-22 10:00:40.838"
+                    # created_date: "2021-05-20 22:00:40.464"
+                    # updated_date: "2021-05-22 10:00:40.838"
 
         default:
           description: error occurred
@@ -166,13 +167,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /user/{token}:
+#tak
+  /users/detail:
     get:
       tags:
-        - user
-      description: Get specific student data by token.
+        - users
+      description: Get a specific user data by the token.
       parameters:
-        - $ref: "#/components/parameters/PageLimit"
+        - $ref: "#/components/parameters/User-id"       
       responses:
         200:
           description: OK
@@ -180,13 +182,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-              example:
-                id: 1
-                name: David Beckham
-                birth: 2000/12/12
-                email: student1@gmail.com
-                phone: 1231231233
-                address: Vancouver
         default:
           description: error occurred
           content:
@@ -194,13 +189,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-  /students/{token}/courses:
+  # Tak
+  /users/courses:
     get:
       tags:
-        - user
-      description: Get courses of specific student has.
+        - users
+      description: Get all course-ids that a user has.
       parameters:
-        - $ref: "#/components/parameters/PageLimit"
+        - $ref: "#/components/parameters/User-id"
       responses:
         200:
           description: OK
@@ -209,45 +205,30 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Course"
-                example:
-                  - id: 1
-                    name: Python
-                    duration: duration
-                    schedules:
-                      - 2021/05/10
-                      - 2021/05/11
-                      - 2021/05/12
-                    description: Python for beginners.
-                    image_path: /img/courses/card.jpg
-                    features:
-                      - 1
-                      - 2
-                      - 3
-                    level: Beginner
-                    prerequisites:
-                      - 1
-                      - 2
-                    price: 2000
-                    status: normal
-                  - id: 2
-                    name: Algorithm
-                    duration: duration
-                    schedules:
-                      - 2021/05/13
-                      - 2021/05/14
-                      - 2021/05/15
-                    description: Algorithm for intermediates.
-                    image_path: /img/courses/card.jpg
-                    features:
-                      - 1
-                    level: Intermediate
-                    prerequisites:
-                      - 1
-                      - 3
-                      - 5
-                    price: 3500
-                    status: hard
+                  properties:
+                    course_id:
+                      type: string
+                      description: "Unique course ID which belongs to the user_id."
+                    status:
+                      type: string
+                      description: | 
+                        A user's status for the course (course_id).
+                        There are four status
+                        - wait list
+                        A user who applied but not in the process because the course is not ready (the course is "inactive").
+                        - applied
+                        A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                        - registered
+                        A user who already registered (got interview and paid tuition free) to the course.
+                        - resign
+                        A user who quit the class for some reason.
+              example:
+                - course_id: DPCS100#1
+                  status: registered
+                - course_id: DPCS100#2
+                  status: wait list
+                - course_id: DPCS101#1
+                  status: resigned
         default:
           description: error occurred
           content:
@@ -256,72 +237,70 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   # Tak
-  # /user/{token}/course:
-  #   get:
-  #     tags:
-  #       - user
-  #     description: Get all course-ids that a user has.
-  #     parameters:
-  #       - $ref: "#/components/parameters/PageLimit"
-  #     responses:
-  #       200:
-  #         description: OK
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Status"
-  #               type: array  
-  #             example:
-  #               - course_id: DPCS100#1
-  #                 status: registered
-  #               - course_id: DPCS100#2
-  #                 status: wait list
-  #               - course_id: DPCS101#1
-  #                 status: resigned
-                
+  /users/{course_id}/status:
+    get:
+      tags:
+        - users
+      description: Get the user's status for the course.
+      parameters:
+      - $ref: "#/components/parameters/User-id"   
+      - $ref: "#/components/parameters/Course-id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    description: | 
+                      A user's status for the course (course_id).
+                      There are four status
+                      - wait list
+                      A user who applied but not in the process because the course is not ready (the course is "inactive").
+                      - applied
+                      A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                      - registered
+                      A user who already registered (got interview and paid tuition free) to the course.
+                      - resign
+                      A user who quit the class for some reason.
+              example:
+                status: "registered"
 
-  #       default:
-  #         description: error occurred
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Error"
-
-  # Tak
-  # /user/{token}/course/{id}:
-  #   get:
-  #     tags:
-  #       - status
-  #     description: Get the user's status for the course.
-  #     parameters:
-  #       - $ref: "#/components/parameters/PageLimit"
-  #     responses:
-  #       200:
-  #         description: OK
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Status"
-  #             example:
-  #               status: registered
-
-  #       default:
-  #         description: error occurred
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Error"
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   # Tak
     put:
       tags:
-        - status
+        - users
       description: Update the user's status for the course.
+      parameters:
+      - $ref: "#/components/parameters/User-id"   
+      - $ref: "#/components/parameters/Course-id"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Status"
+              properties:
+                status:
+                  type: string
+                  description: |
+                    <span style="color: red; ">*required</span> A user's status for the course (course_id).<br>
+                    There are four status: <br>
+                    - wait list
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                    - applied
+                      - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                    - registered
+                      - A user who already registered (got interview and paid tuition free) to the course. 
+                    - resign
+                      - A user who quit the class for some reason.
             example:
               status: registered
       responses:
@@ -339,6 +318,7 @@ paths:
                 $ref: "#/components/schemas/Error"
 
   /courses:
+  # Yasu
     get:
       tags:
         - courses
@@ -352,83 +332,15 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Course"
-                example:
-                  - id: 1
-                    name: Python
-                    duration: duration
-                    schedules:
-                      - 2021/05/10
-                      - 2021/05/11
-                      - 2021/05/12
-                    description: Python for beginners.
-                    image_path: /img/courses/card.jpg
-                    features:
-                      - 1
-                      - 2
-                      - 3
-                    level: Beginner
-                    prerequisites:
-                      - 1
-                      - 2
-                    price: 2000
-                    status: normal
-                  - id: 2
-                    name: Algorithm
-                    duration: duration
-                    schedules:
-                      - 2021/05/13
-                      - 2021/05/14
-                      - 2021/05/15
-                    description: Algorithm for intermediates.
-                    image_path: /img/courses/card.jpg
-                    features:
-                      - 1
-                    level: Intermediate
-                    prerequisites:
-                      - 1
-                      - 3
-                      - 5
-                    price: 3500
-                    status: hard
-    post:
-      tags:
-        - courses
-      description: Create a new Course.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Course"
-            example:
-              name: Java
-              schedules:
-                - 2021/05/15
-                - 2021/05/16
-              description: Java fro beginners.
-              image_path: /img/courses/card.jpg
-              price: 2799
-              status: hard
-      responses:
-        200:
-          description: created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Course"
 
-  /courses/{id}:
+  /courses/{course_id}:
     # Daiki
     get:
       tags:
         - courses
-      description: Get specific courses data by id.
+      description: Get specific courses data by its id.
       parameters:
-      - name: id
-        in: path
-        description: Course ID
-        required: true
-        schema:
-          type: string
+      - $ref: "#/components/parameters/Course-id"
       responses:
         200:
           description: OK
@@ -452,9 +364,36 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Course"
+              type: object
+              properties:
+                course_id:
+                  type: string
+                  example: DPCS100#001
+                  description: |
+                    Unique course ID. First word until # indicates the course prime id. The second word (after #) indicates seasons. For example, if a course has three times in a year, it will be like,
+                    - Jan - Apr
+                      - DPCS100#1
+                    - May - Aug
+                      - DPCS100#2
+                    - Sep - Dec
+                      - DPCS100#3
+                status:
+                  type: string
+                  example: registered
+                  description: |
+                    A user's status for the course (course_id).<br>
+                    There are four status: <br>
+                    - wait list
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                    - applied
+                      - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                    - registered
+                      - A user who already registered (got interview and paid tuition free) to the course. 
+                    - resign
+                      - A user who quit the class for some reason.
+                
             example:
-              id: DPCS100#1
+              course_id: DPCS100#1
               status: active
       responses:
         200:
@@ -470,57 +409,40 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    delete:
-      tags:
-        - courses
-      description: Delete specific course data by id.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Course"
-            example:
-              id: 2
-      responses:
-        200:
-          description: deleted
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-              example:
-                id: 2
-        default:
-          description: error occurred
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
   
   #Tak
-  /courses/{id}/user:
+  /courses/{course_id}/users:
     get:
       tags:
         - courses
       description: Get all user-ids that a course has.
       parameters:
-      - name: id
-        in: path
-        description: Course ID
-        required: true
-        schema:
-          type: string
+      - $ref: "#/components/parameters/Course-id"
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Status"
                 type: array  
+                items:
+                  properties:
+                    user_id:
+                      type: string
+                      description: "Unique user ID which belongs to the course_id."
+                    status:
+                      type: string
+                      description: | 
+                        A user's status for the course (course_id).
+                        There are four status
+                        - wait list
+                        A user who applied but not in the process because the course is not ready (the course is "inactive").
+                        - applied
+                        A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
+                        - registered
+                        A user who already registered (got interview and paid tuition free) to the course.
+                        - resign
+                        A user who quit the class for some reason.
               example:
                 - user_id: 442c16a8a353
                   status: registered
@@ -536,26 +458,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+
   # Daiki
     post:
       tags:
         - courses
       description: Add a user to a course
       parameters:
-      - name: user-id
-        in: header
-        example: eyJz9sdfsdfsdfsd
-        description: User ID (token id)
-        required: true
-        schema:
-          type: string
-      - name: course-id
-        in: path
-        example: DPCS100#1
-        description: Course ID
-        required: true
-        schema:
-          type: string
+      - $ref: "#/components/parameters/User-id"
+      - $ref: "#/components/parameters/Course-id"
       requestBody:
         content:
           application/json:
@@ -676,6 +587,22 @@ components:
       description: Limits the number
       schema:
         type: integer
+    User-id:
+        name: user_id
+        in: header
+        example: eyJz9sdfsdfsdfsd
+        description: User ID (token id)
+        required: true
+        schema:
+          type: string
+    Course-id:
+        name: course_id
+        in: path
+        example: DPCS100#1
+        description: Course ID
+        required: true
+        schema:
+          type: string
 
   schemas:
   # Koji
@@ -714,7 +641,7 @@ components:
     User:
       type: object
       properties:
-        id:
+        user_id:
           type: string
           example: 442c16a8a353
           description: |
@@ -784,24 +711,24 @@ components:
             Acceptable values are:
             - student
             - admin
-        created_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-05-20 22:00:40.464"
-          description: |
-            created date
-        updated_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-05-22 10:00:40.838"
-          description: |
-            updated date
+        # created_date:
+        #   type: string
+        #   format: yyyy-MM-dd HH:mm:ss.sss
+        #   example: "2021-05-20 22:00:40.464"
+        #   description: |
+        #     created date
+        # updated_date:
+        #   type: string
+        #   format: yyyy-MM-dd HH:mm:ss.sss
+        #   example: "2021-05-22 10:00:40.838"
+        #   description: |
+        #     updated date
 
   # Tak
     Course:
       type: object
       properties:
-        id:
+        course_id:
           type: string
           example: DPCS100#001
           description: |
@@ -924,18 +851,18 @@ components:
             type: string
           description:
             A list of available course schedules.
-        created_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-17 20:46:11.716"
-          description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
-        updated_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-18 15:22:05.292"
-          description: |
-            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        # created_date:
+        #   type: string
+        #   format: yyyy-MM-dd HH:mm:ss.sss
+        #   example: "2021-06-17 20:46:11.716"
+        #   description: |
+        #     Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        # updated_date:
+        #   type: string
+        #   format: yyyy-MM-dd HH:mm:ss.sss
+        #   example: "2021-06-18 15:22:05.292"
+        #   description: |
+        #     Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
 
   # Tak
     Status:
@@ -965,18 +892,6 @@ components:
               - A user who already registered (got interview and paid tuition free) to the course. 
             - resign
               - A user who quit the class for some reason.
-        created_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-17 20:46:11.716"
-          description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
-        updated_date:
-          type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-18 15:22:05.292"
-          description: |
-            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
     CognitoError:
       type: object
       properties:
@@ -986,6 +901,7 @@ components:
         error_description:
           type: string
           description: error detail    
+
     Error:
       type: object
       properties:
