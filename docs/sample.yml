@@ -13,7 +13,52 @@ security:
   - BasicAuth: []
 
 paths:
-# Daiki
+
+  # Koji
+  /oauth2/userInfo:
+    get:
+      tags:
+        - cognito
+      description: Get user info from social media.
+      parameters:
+        - $ref: "#/components/parameters/UserInfoFromSocialMedia"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Cognito"
+              example:
+                sub: '0be75991-gk2h-2334-184a-e224e28slffg'
+                email_verified: 'false'
+                phone_number_verified: 'false'
+                given_name: 'Martin'
+                family_name: 'Garrix'
+                email: 'martin@mail.com'
+                username: 'google_101304123810377524376'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+                schema:
+                  type: array
+                  $ref: "#/components/schemas/CognitoError"
+                example:
+                  error: invalid_token
+                  error_description: Access token is expired or user has globally signed out, disabled or been deleted.
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: "#/components/schemas/CognitoError"
+              example:
+                error: invalid_request
+                error_description: No authorization header set
   /users:
     get:
       tags:
@@ -527,6 +572,15 @@ paths:
 
 components:
   parameters:
+    # Koji
+    UserInfoFromSocialMedia:
+        name: Authorization
+        in: header
+        description: identify user by access token
+        required: true
+        example: Beaer ACCESS_TOKEN
+        schema:
+          type: string
     PageLimit:
       name: limit
       in: query
@@ -551,6 +605,38 @@ components:
           type: string
 
   schemas:
+  # Koji
+    Cognito:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: |
+            users id in cognito
+        username:
+          type: string
+          description: |
+            users username in cognito
+        email_verified:
+          type: boolean
+          description: |
+            whether if email is verified
+        phone_number_verified:
+          type: boolean
+          description: |
+            \<Optional> whether if phone number is verified
+        given_name:
+          type: string
+          description: |
+            \<Optional> user's given name
+        family_name:
+          type: string
+          description: |
+            \<Optional> user's family name
+        email:
+          type: string
+          description: |
+            \<Optional> user's email
     # Daiki
     User:
       type: object
@@ -806,18 +892,15 @@ components:
               - A user who already registered (got interview and paid tuition free) to the course. 
             - resign
               - A user who quit the class for some reason.
-        # created_date:
-        #   type: string
-        #   format: yyyy-MM-dd HH:mm:ss.sss
-        #   example: "2021-06-17 20:46:11.716"
-        #   description: |
-        #     Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
-        # updated_date:
-        #   type: string
-        #   format: yyyy-MM-dd HH:mm:ss.sss
-        #   example: "2021-06-18 15:22:05.292"
-        #   description: |
-        #     Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+    CognitoError:
+      type: object
+      properties:
+        error:
+          type: object
+          description: error title
+        error_description:
+          type: string
+          description: error detail    
 
     Error:
       type: object
