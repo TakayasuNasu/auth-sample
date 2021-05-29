@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prism": "./node_modules/.bin/prism mock"
+    "prism": "./node_modules/.bin/prism mock",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
@@ -27,6 +28,7 @@
     "@types/node": "^15.0.1",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
+    "husky": "^6.0.0",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
