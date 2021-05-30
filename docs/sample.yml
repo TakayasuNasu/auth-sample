@@ -817,19 +817,19 @@ components:
           type: object
           properties:
             month:
-              type: number
-              example: 6
+              type: string
+              example: "6"
             weeks:
-              type: number
-              example: 26
+              type: string
+              example: "26"
             hours:
-              type: number
-              example: 3
+              type: string
+              example: "3"
           description: |
             A course length. "month" and "weeks" are representing mostly same thing. "hours:" indicates hours per week. If "month" is 6, "weeks" is 26, and "hours" is 3, it can be translated into "26 Weeks (6 Months) - 3 hours per week".
         price:
-          type: number
-          example: 100000
+          type: string
+          example: "100000"
           description: |
             A total price costs for the course. CAD.
         available_schedules:
