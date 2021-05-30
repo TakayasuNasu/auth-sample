@@ -3,8 +3,8 @@ import type { FC } from 'react'
 import Link from 'next/link'
 import Container from '@material-ui/core/Container'
 
-import Layout from '../components/organisms/front/layout'
-import MV from '../components/organisms/front/mv'
+import Layout from '@/components/organisms/front/layout'
+import MV from '@/components/organisms/front/mv'
 
 const Page: FC = () => (
   <Layout>

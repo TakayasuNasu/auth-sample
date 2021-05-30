@@ -1,0 +1,235 @@
+@import './function';
+
+$spMaxWidth: 576px;
+$tabMinWidth: 750px;
+$tabMaxWidth: 992px;
+$pcMinWidth: 1200px;
+
+@mixin md($min: $tabMinWidth) {
+  @media only screen and (min-width: #{$min}) {
+    @content;
+  }
+}
+
+@mixin lg($min: $tabMaxWidth) {
+  @media only screen and (min-width: #{$min}) {
+    @content;
+  }
+}
+
+@mixin xl($min: $pcMinWidth) {
+  @media only screen and (min-width: #{$min}) {
+    @content;
+  }
+}
+
+@mixin mt($sp: 80, $pc: 60) {
+  margin-top: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    margin-top: $pc + px;
+  }
+}
+
+@mixin mb($sp: 80, $pc: 60) {
+  margin-bottom: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    margin-bottom: $pc + px;
+  }
+}
+
+@mixin ml($sp: 80, $pc: 60) {
+  margin-left: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    margin-left: $pc + px;
+  }
+}
+
+@mixin mr($sp: 80, $pc: 60) {
+  margin-right: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    margin-right: $pc + px;
+  }
+}
+
+@mixin pt($sp: 80, $pc: 60) {
+  padding-top: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    padding-top: $pc + px;
+  }
+}
+
+@mixin pb($sp: 80, $pc: 60) {
+  padding-bottom: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    padding-bottom: $pc + px;
+  }
+}
+
+@mixin pl($sp: 80, $pc: 60) {
+  padding-left: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    padding-left: $pc + px;
+  }
+}
+
+@mixin pr($sp: 80, $pc: 60) {
+  padding-right: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    padding-right: $pc + px;
+  }
+}
+
+@mixin wh($width: 100, $height: 100) {
+  width: vw($width);
+  height: vw($height);
+}
+
+@mixin wh-md($width: 100, $height: 100) {
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    width: $width + px;
+    height: $height + px;
+  }
+}
+
+@mixin wh-xl($width: 100, $height: 100) {
+  @media only screen and (min-width: #{$pcMinWidth}) {
+    width: $width + px;
+    height: $height + px;
+  }
+}
+
+@mixin fs($sp: 16, $md: null, $lg: null, $xl: null) {
+  @if $md==null {
+    $md: $sp;
+  }
+
+  @if $lg==null {
+    $lg: $md;
+  }
+
+  @if $xl==null {
+    $xl: $md;
+  }
+
+  font-size: fs($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    font-size: $md + px;
+  }
+
+  @media only screen and (min-width: #{$tabMaxWidth}) {
+    font-size: $lg + px;
+  }
+
+  @media only screen and (min-width: #{$pcMinWidth}) {
+    font-size: $xl + px;
+  }
+}
+
+@mixin w($sp: 100, $md: null, $lg: null, $xl: null) {
+  @if $md==null {
+    $md: $sp;
+  }
+
+  @if $lg==null {
+    $lg: $md;
+  }
+
+  @if $xl==null {
+    $xl: $lg;
+  }
+
+  @if (unitless($sp)) {
+    width: vw($sp);
+  } @else {
+    width: $sp;
+  }
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    @if (unitless($md)) {
+      width: $md + px;
+    } @else {
+      width: $md;
+    }
+  }
+
+  @media only screen and (min-width: #{$tabMaxWidth}) {
+    @if (unitless($lg)) {
+      width: $lg + px;
+    } @else {
+      width: $lg;
+    }
+  }
+
+  @media only screen and (min-width: #{$pcMinWidth}) {
+    @if (unitless($xl)) {
+      width: $xl + px;
+    } @else {
+      width: $xl;
+    }
+  }
+}
+
+@mixin h($sp: 16, $md: null, $lg: null, $xl: null) {
+  @if $md==null {
+    $md: $sp;
+  }
+
+  @if $lg==null {
+    $lg: $md;
+  }
+
+  @if $xl==null {
+    $xl: $lg;
+  }
+
+  height: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    height: $md + px;
+  }
+
+  @media only screen and (min-width: #{$tabMaxWidth}) {
+    height: $lg + px;
+  }
+
+  @media only screen and (min-width: #{$pcMinWidth}) {
+    height: $xl + px;
+  }
+}
+
+@mixin r($sp: 16, $md: null, $lg: null, $xl: null) {
+  @if $md==null {
+    $md: $sp;
+  }
+
+  @if $lg==null {
+    $lg: $md;
+  }
+
+  @if $xl==null {
+    $xl: $lg;
+  }
+
+  border-radius: vw($sp);
+
+  @media only screen and (min-width: #{$tabMinWidth}) {
+    border-radius: $md + px;
+  }
+
+  @media only screen and (min-width: #{$tabMaxWidth}) {
+    border-radius: $lg + px;
+  }
+
+  @media only screen and (min-width: #{$pcMinWidth}) {
+    border-radius: $xl + px;
+  }
+}
