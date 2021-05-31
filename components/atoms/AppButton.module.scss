@@ -1,0 +1,8 @@
+@import '../../styles/mixin.scss';
+
+.button {
+  background-color: red;
+  @include lg {
+    background-color: blue;
+  }
+}

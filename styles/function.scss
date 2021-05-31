@@ -1,0 +1,13 @@
+$spBaseWidth: 750;
+
+@function vw($size, $viewport: $spBaseWidth) {
+  $rate: 100 / $viewport;
+  @return $rate * $size * 1vw;
+}
+
+@function fs($size) {
+  @return calc(
+    (#{$size} / 2.34375) * 1px + (#{$size} - (#{$size} / 2.34375)) *
+      (100vw - 320px) / (750 - 320)
+  );
+}
