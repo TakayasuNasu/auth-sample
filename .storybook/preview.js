@@ -71,4 +71,13 @@ export const parameters = {
       ...customViewports,
     },
   },
+  backgrounds: {
+    default: 'light',
+    values: [
+      { name: 'light', value: '#F7F8FA' },
+      { name: 'dark', value: '#314565' },
+      { name: 'white', value: '#FFFFFF' },
+      { name: 'black', value: '#000000' },
+    ],
+  },
 }

@@ -9,7 +9,7 @@
     "prism": "./node_modules/.bin/prism mock",
     "storybook": "start-storybook -p 9009 -s ./public",
     "build-storybook": "build-storybook -o build -s ./stories/assets",
-    "format": "prettier --write {pages,components}/**/*.tsx",
+    "format": "prettier --write {pages,components,context}/**/*.{ts,tsx}",
     "postinstall": "husky install"
   },
   "dependencies": {
