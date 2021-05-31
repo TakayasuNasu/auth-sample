@@ -7,7 +7,7 @@ export default NextAuth({
       clientId: process.env.COGNITO_CLIENT_ID,
       clientSecret: process.env.COGNITO_CLIENT_SECRET,
       domain: process.env.COGNITO_DOMAIN,
-    })
+    }),
   ],
   session: {
     jwt: true,
