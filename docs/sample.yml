@@ -33,12 +33,13 @@ paths:
                   $ref: "#/components/schemas/Cognito"
               example:
                 sub: '0be75991-gk2h-2334-184a-e224e28slffg'
+                username: 'google_101304123810377524376'
                 email_verified: 'false'
                 phone_number_verified: 'false'
                 given_name: 'Martin'
                 family_name: 'Garrix'
                 email: 'martin@mail.com'
-                username: 'google_101304123810377524376'
+                
         401:
           description: Unauthorized
           content:
@@ -86,6 +87,8 @@ paths:
       tags:
         - users
       summary: Create a new user with token id
+      parameters:
+        - $ref: "#/components/parameters/User-id"   
       requestBody:
         description: | 
           Create a new user with token id. <br>
@@ -96,10 +99,6 @@ paths:
             schema:
               type: "object"
               properties:
-                user_id:
-                  type: "string"
-                  description: |
-                    <span style="color: red; ">*required</span> token id
                 first_name:
                   type: "string"
                   description: |
@@ -127,7 +126,6 @@ paths:
                   description:  |
                     \<Optional> User's phone number
               example:
-                user_id: 442c16a8a353
                 first_name: Brooklyn
                 last_name: Beckham
                 image_path: "https://sampledata.png"
@@ -188,13 +186,115 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  # Tak
+    put:
+      tags:
+        - users
+      description: Update the user's details by the token.
+      parameters:
+      - $ref: "#/components/parameters/User-id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                first_name:
+                  type: "string"
+                  description: |
+                    <span style="color: red; ">*required</span> User's first name
+                last_name:
+                  type: "string"
+                  description: |
+                    <span style="color: red; ">*required</span> User's last name
+                image_path:
+                  type: string
+                  description: |
+                    \<Optional> The path of a user's profile image
+                birth:
+                  type: string
+                  format: yyyy-MM-dd HH:mm:ss.sss
+                  description:  |
+                    <span style="color: red; ">*required</span> User's birth day
+                email:
+                  type: string
+                  format: email
+                  description:  |
+                    <span style="color: red; ">*required</span> User's email
+                phone:
+                  type: string
+                  description:  |
+                    <span style="color: red; ">*required</span> User's phone number
+                parent_first_name:
+                  type: string
+                  description: |
+                    Optional<br>
+                    User's parents first name
+                parent_last_name:
+                  type: string
+                  description: |
+                    Optional<br>
+                    User's parents last name
+                parent_email:
+                  type: string
+                  format: email
+                  description: |
+                    Optional<br>
+                    User's parents email
+                parent_phone:
+                  type: string
+                  description: |
+                    Optional<br>
+                    User's parents phone number
+
+              example:
+                first_name: Brooklyn
+                last_name: Beckham
+                image_path: "https://sampledata.png"
+                birth: "1994-01-24 00:00:00"
+                email: student1@gmail.com
+                phone: 123-456-7890
+                parent_first_name: David
+                parent_last_name: Beckham
+                parent_email: parent1@gmail.com
+                parent_phone: 456-789-0123
+
+
+      responses:
+        200:
+          description: updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+                example:
+                  user_id: 442c16a8a353
+                  first_name: Brooklyn
+                  last_name: Beckham
+                  image_path: "https://sampledata.png"
+                  birth: "1994-01-24 00:00:00.000"
+                  email: student1@gmail.com
+                  phone: 123-456-7890
+                  parent_first_name": David
+                  parent_last_name": Beckham
+                  parent_email: parent1@gmail.com
+                  parent_phone: 456-789-0123
+                  type: student
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
+        default:
+          description: error occurred
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   # Tak
   /users/courses:
     get:
       tags:
         - users
-      description: Get all course-ids that a user has.
+      description: Get all course_ids that a user has.
       parameters:
         - $ref: "#/components/parameters/User-id"
       responses:
@@ -304,6 +404,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+
+
   # Tak
     put:
       tags:
@@ -389,6 +491,8 @@ paths:
       tags:
         - courses
       description: Update the status of the course by its id.
+      parameters:
+      - $ref: "#/components/parameters/Course-id"
       requestBody:
         content:
           application/json:
