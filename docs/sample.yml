@@ -157,8 +157,8 @@ paths:
                   parent_email: ""
                   parent_phone: ""
                   type: student
-                    # created_date: "2021-05-20 22:00:40.464"
-                    # updated_date: "2021-05-22 10:00:40.838"
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
 
         default:
           description: error occurred
@@ -222,13 +222,31 @@ paths:
                           - A user who already registered (got interview and paid tuition free) to the course.
                         - resign
                           - A user who quit the class for some reason.
+                    created_date:
+                      type: string
+                      format: yyyy-MM-dd HH:mm:ss.sss
+                      description: |
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+                    updated_date:
+                      type: string
+                      format: yyyy-MM-dd HH:mm:ss.sss
+                      example: "2021-05-22 10:00:40.838"
+                      description: |
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
               example:
                 - course_id: DPCS100#1
                   status: registered
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
                 - course_id: DPCS100#2
                   status: wait list
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
                 - course_id: DPCS101#1
                   status: resigned
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
+
         default:
           description: error occurred
           content:
@@ -265,8 +283,20 @@ paths:
                         - A user who already registered (got interview and paid tuition free) to the course.
                       - resign
                         - A user who quit the class for some reason.
+                  created_date:
+                    type: string
+                    format: yyyy-MM-dd HH:mm:ss.sss
+                    description: |
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+                  updated_date:
+                    type: string
+                    format: yyyy-MM-dd HH:mm:ss.sss
+                    description: |
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
               example:
                 status: "registered"
+                created_date: "2021-05-20 22:00:40.464"
+                updated_date: "2021-05-21 23:01:40.464"
 
         default:
           description: error occurred
@@ -380,7 +410,6 @@ paths:
                       - A user who already registered (got interview and paid tuition free) to the course. 
                     - resign
                       - A user who quit the class for some reason.
-                
             example:
               status: active
       responses:
@@ -412,32 +441,22 @@ paths:
           content:
             application/json:
               schema:
-                type: array  
+                type: array
                 items:
-                  properties:
-                    user_id:
-                      type: string
-                      description: "Unique user ID which belongs to the course_id."
-                    status:
-                      type: string
-                      description: | 
-                        A user's status for the course (course_id).
-                        There are four status
-                        - wait list
-                        A user who applied but not in the process because the course is not ready (the course is "inactive").
-                        - applied
-                        A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
-                        - registered
-                        A user who already registered (got interview and paid tuition free) to the course.
-                        - resign
-                        A user who quit the class for some reason.
+                  $ref: "#/components/schemas/Status"
               example:
                 - user_id: 442c16a8a353
                   status: registered
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
                 - user_id: ffaaafecc0e9
                   status: wait list
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
                 - user_id: d55c4d00a85e
                   status: applied
+                  created_date: "2021-05-20 22:00:40.464"
+                  updated_date: "2021-05-22 10:00:40.838"
 
         default:
           description: error occurred
@@ -445,7 +464,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
 
   # Daiki
     post:
@@ -699,18 +717,18 @@ components:
             Acceptable values are:
             - student
             - admin
-        # created_date:
-        #   type: string
-        #   format: yyyy-MM-dd HH:mm:ss.sss
-        #   example: "2021-05-20 22:00:40.464"
-        #   description: |
-        #     created date
-        # updated_date:
-        #   type: string
-        #   format: yyyy-MM-dd HH:mm:ss.sss
-        #   example: "2021-05-22 10:00:40.838"
-        #   description: |
-        #     updated date
+        created_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-20 22:00:40.464"
+          description: |
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-05-22 10:00:40.838"
+          description: |
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
 
   # Tak
     Course:
@@ -780,6 +798,11 @@ components:
                 example: "2021-09-01 18:00.000"
           description: |
             A list of class schedules including a start date and an end date of the class.
+        summary:
+          type: string
+          example: An introduction to the fundamentals of computer science and the art of programming
+          description: |
+            A summary of the course.
         description:
           type: string
           example: Learn the basics of programming and computer science through Python. This course aims to teach everyone the basics of programming. You will learn to create simple computer programs, develop problem-solving skills, and work through fun challenges. Once a student completes this course, they will be ready to take more advanced courses.
@@ -839,18 +862,18 @@ components:
             type: string
           description:
             A list of available course schedules.
-        # created_date:
-        #   type: string
-        #   format: yyyy-MM-dd HH:mm:ss.sss
-        #   example: "2021-06-17 20:46:11.716"
-        #   description: |
-        #     Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
-        # updated_date:
-        #   type: string
-        #   format: yyyy-MM-dd HH:mm:ss.sss
-        #   example: "2021-06-18 15:22:05.292"
-        #   description: |
-        #     Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        created_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-17 20:46:11.716"
+          description: |
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-18 15:22:05.292"
+          description: |
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
 
   # Tak
     Status:
@@ -880,6 +903,19 @@ components:
               - A user who already registered (got interview and paid tuition free) to the course. 
             - resign
               - A user who quit the class for some reason.
+        created_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-17 20:46:11.716"
+          description: |
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+        updated_date:
+          type: string
+          format: yyyy-MM-dd HH:mm:ss.sss
+          example: "2021-06-18 15:22:05.292"
+          description: |
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+
     CognitoError:
       type: object
       properties:
