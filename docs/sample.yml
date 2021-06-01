@@ -226,13 +226,12 @@ paths:
                       type: string
                       format: yyyy-MM-dd HH:mm:ss.sss
                       description: |
-                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
                     updated_date:
                       type: string
                       format: yyyy-MM-dd HH:mm:ss.sss
-                      example: "2021-05-22 10:00:40.838"
                       description: |
-                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
               example:
                 - course_id: DPCS100#1
                   status: registered
@@ -287,12 +286,12 @@ paths:
                     type: string
                     format: yyyy-MM-dd HH:mm:ss.sss
                     description: |
-                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
                   updated_date:
                     type: string
                     format: yyyy-MM-dd HH:mm:ss.sss
                     description: |
-                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
               example:
                 status: "registered"
                 created_date: "2021-05-20 22:00:40.464"
@@ -722,13 +721,13 @@ components:
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-05-20 22:00:40.464"
           description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-05-22 10:00:40.838"
           description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
 
   # Tak
     Course:
@@ -867,13 +866,13 @@ components:
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-06-17 20:46:11.716"
           description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-06-18 15:22:05.292"
           description: |
-            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
 
   # Tak
     Status:
@@ -908,13 +907,13 @@ components:
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-06-17 20:46:11.716"
           description: |
-            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+            Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
           example: "2021-06-18 15:22:05.292"
           description: |
-            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss
+            Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
 
     CognitoError:
       type: object
