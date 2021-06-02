@@ -887,20 +887,6 @@ components:
           example: "2021-09-16 00:00:00.000"
           description: |
             The date when the course ends.
-        class_schedules:
-          type: array
-          items:
-            properties:
-              start_time:
-                type: string
-                format: yyyy-MM-dd HH:mm:ss.sss
-                example: "2021-09-01 16:00.000"
-              end_time:
-                type: string
-                format: yyyy-MM-dd HH:mm:ss.sss
-                example: "2021-09-01 18:00.000"
-          description: |
-            A list of class schedules including a start date and an end date of the class.
         summary:
           type: string
           example: An introduction to the fundamentals of computer science and the art of programming
