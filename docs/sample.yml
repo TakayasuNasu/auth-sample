@@ -940,8 +940,14 @@ components:
           description: |
             A course length. "month" and "weeks" are representing mostly same thing. "hours:" indicates hours per week. If "month" is 6, "weeks" is 26, and "hours" is 3, it can be translated into "26 Weeks (6 Months) - 3 hours per week".
         price:
-          type: string
-          example: "100000"
+          type: object
+          properties:
+            contents_only:
+              type: string
+              example: "100"
+            online_course:
+              type: string
+              example: "200"
           description: |
             A total price costs for the course. CAD.
         available_schedules:
