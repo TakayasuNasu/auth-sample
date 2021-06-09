@@ -320,7 +320,7 @@ paths:
                           - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                         - registered
                           - A user who already registered (got interview and paid tuition free) to the course.
-                        - resign
+                        - resigned
                           - A user who quit the class for some reason.
                     created_date:
                       type: string
@@ -380,7 +380,7 @@ paths:
                         - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                       - registered
                         - A user who already registered (got interview and paid tuition free) to the course.
-                      - resign
+                      - resigned
                         - A user who quit the class for some reason.
                   created_date:
                     type: string
@@ -430,7 +430,7 @@ paths:
                       - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                     - registered
                       - A user who already registered (got interview and paid tuition free) to the course. 
-                    - resign
+                    - resigned
                       - A user who quit the class for some reason.
             example:
               status: registered
@@ -511,7 +511,7 @@ paths:
                       - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                     - registered
                       - A user who already registered (got interview and paid tuition free) to the course. 
-                    - resign
+                    - resigned
                       - A user who quit the class for some reason.
             example:
               status: active
@@ -592,7 +592,7 @@ paths:
                       - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                     - registered
                       - A user who already registered (got interview and paid tuition free) to the course. 
-                    - resign
+                    - resigned
                       - A user who quit the class for some reason.
               example:
                   user_status: registered
@@ -996,7 +996,7 @@ components:
               - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
             - registered
               - A user who already registered (got interview and paid tuition free) to the course. 
-            - resign
+            - resigned
               - A user who quit the class for some reason.
         created_date:
           type: string
