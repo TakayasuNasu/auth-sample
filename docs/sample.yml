@@ -82,89 +82,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    # Daiki
-    post:
-      tags:
-        - users
-      summary: Create a new user with token id
-      parameters:
-        - $ref: "#/components/parameters/User-id"   
-      requestBody:
-        description: | 
-          Create a new user with token id. <br>
-          id is required, but other values are optional
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              properties:
-                first_name:
-                  type: "string"
-                  description: |
-                    \<Optional> User's first name
-                last_name:
-                  type: "string"
-                  description: |
-                    \<Optional> User's last name
-                image_path:
-                  type: string
-                  description: |
-                    \<Optional> The path of a user's profile image
-                birth:
-                  type: string
-                  format: yyyy-MM-dd HH:mm:ss.sss
-                  description:  |
-                    \<Optional> User's birth day
-                email:
-                  type: string
-                  format: email
-                  description:  |
-                    \<Optional> User's email
-                phone:
-                  type: string
-                  description:  |
-                    \<Optional> User's phone number
-              example:
-                first_name: Brooklyn
-                last_name: Beckham
-                image_path: "https://sampledata.png"
-                birth: "1994-01-24 00:00:00"
-                email: student1@gmail.com
-                phone: 123-456-7890
-
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/User"
-                example:
-                  user_id: 442c16a8a353
-                  first_name: Brooklyn
-                  last_name: Beckham
-                  image_path: "https://sampledata.png"
-                  birth: "1994-01-24 00:00:00.000"
-                  email: student1@gmail.com
-                  phone: 123-456-7890
-                  parent_first_name": ""
-                  parent_last_name": ""
-                  parent_email: ""
-                  parent_phone: ""
-                  type: student
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
-
-        default:
-          description: error occurred
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-
 #tak
   /users/detail:
     get:
@@ -957,6 +874,11 @@ components:
             type: string
           description:
             A list of available course schedules.
+        classroom:
+          type: string
+          example: https://clasroom.google.com/c/sample
+          description: |
+            Google Classroom's link
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
