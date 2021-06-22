@@ -14,52 +14,6 @@ security:
 
 paths:
 
-  # Koji
-  /oauth2/userInfo:
-    get:
-      tags:
-        - cognito
-      description: Get user info from social media.
-      parameters:
-        - $ref: "#/components/parameters/UserInfoFromSocialMedia"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Cognito"
-              example:
-                sub: '0be75991-gk2h-2334-184a-e224e28slffg'
-                username: 'google_101304123810377524376'
-                email_verified: 'false'
-                phone_number_verified: 'false'
-                given_name: 'Martin'
-                family_name: 'Garrix'
-                email: 'martin@mail.com'
-                
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-                schema:
-                  type: array
-                  $ref: "#/components/schemas/CognitoError"
-                example:
-                  error: invalid_token
-                  error_description: Access token is expired or user has globally signed out, disabled or been deleted.
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: "#/components/schemas/CognitoError"
-              example:
-                error: invalid_request
-                error_description: No authorization header set
   /users:
     get:
       tags:
@@ -87,7 +41,7 @@ paths:
     get:
       tags:
         - users
-      description: Get a specific user data by the token.
+      description: Get a specific user data by the user_id.
       parameters:
         - $ref: "#/components/parameters/User-id"       
       responses:
@@ -107,7 +61,7 @@ paths:
     put:
       tags:
         - users
-      description: Update (create) a user's details by the token.     <ul><li>`create:`  If you specify a user id which doesn't exit, it will create a new user with using request body. </li><li>`update:` If you specify a user id which already exits, it will update user's details with using request body. ⚠️ If you do not include any `optional` key, its value will automatically be rest and filled empty string "".</li> <ul> 
+      description: Update (create) a user's details by the user_id.     <ul><li>`create:`  If you specify a user id which doesn't exit, it will create a new user with using request body. </li><li>`update:` If you specify a user id which already exits, it will update user's details with using request body. ⚠️ If you do not include any `optional` key, its value will automatically be rest and filled empty string "".</li> <ul> 
       parameters:
       - $ref: "#/components/parameters/User-id"
       requestBody:
@@ -597,72 +551,7 @@ paths:
                     phone: 123-456-7890
 
 components:
-  parameters:
-    # Koji
-    UserInfoFromSocialMedia:
-        name: Authorization
-        in: header
-        description: identify user by access token
-        required: true
-        example: Beaer ACCESS_TOKEN
-        schema:
-          type: string
-    PageLimit:
-      name: limit
-      in: query
-      description: Limits the number
-      schema:
-        type: integer
-    User-id:
-        name: user_id
-        in: header
-        example: eyJz9sdfsdfsdfsd
-        description: User ID (token id)
-        required: true
-        schema:
-          type: string
-    Course-id:
-        name: course_id
-        in: path
-        example: DPCS100-1
-        description: Course ID
-        required: true
-        schema:
-          type: string
-
   schemas:
-  # Koji
-    Cognito:
-      type: object
-      properties:
-        sub:
-          type: string
-          description: |
-            users id in cognito
-        username:
-          type: string
-          description: |
-            users username in cognito
-        email_verified:
-          type: boolean
-          description: |
-            whether if email is verified
-        phone_number_verified:
-          type: boolean
-          description: |
-            \<Optional> whether if phone number is verified
-        given_name:
-          type: string
-          description: |
-            \<Optional> user's given name
-        family_name:
-          type: string
-          description: |
-            \<Optional> user's family name
-        email:
-          type: string
-          description: |
-            \<Optional> user's email
     # Daiki
     User:
       type: object
@@ -671,7 +560,7 @@ components:
           type: string
           example: 442c16a8a353
           description: |
-            User's social account unique token id
+            User's unique id published by cognito.
         first_name:
           type: string
           example: Brooklyn
