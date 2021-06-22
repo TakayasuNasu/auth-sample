@@ -250,15 +250,15 @@ paths:
                       description: |
                         Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
               example:
-                - course_id: DPCS100#1
+                - course_id: DPCS100-1
                   status: registered
                   created_date: "2021-05-20 22:00:40.464"
                   updated_date: "2021-05-22 10:00:40.838"
-                - course_id: DPCS100#2
+                - course_id: DPCS100-2
                   status: wait list
                   created_date: "2021-05-20 22:00:40.464"
                   updated_date: "2021-05-22 10:00:40.838"
-                - course_id: DPCS101#1
+                - course_id: DPCS101-1
                   status: resigned
                   created_date: "2021-05-20 22:00:40.464"
                   updated_date: "2021-05-22 10:00:40.838"
@@ -555,7 +555,7 @@ paths:
                   description:  |
                     <span style="color: red; ">*required</span> User's phone number
               example:
-                  course_id: DPCS100#1
+                  course_id: DPCS100-1
                   first_name: Brooklyn
                   last_name: Beckham
                   email: student1@gmail.com
@@ -590,7 +590,7 @@ paths:
                     description:  |
                       <span style="color: red; ">*required</span> User's phone number
                 example:
-                    course_id: DPCS100#1
+                    course_id: DPCS100-1
                     first_name: Brooklyn
                     last_name: Beckham
                     email: student1@gmail.com
@@ -624,7 +624,7 @@ components:
     Course-id:
         name: course_id
         in: path
-        example: DPCS100#1
+        example: DPCS100-1
         description: Course ID
         required: true
         schema:
@@ -756,15 +756,15 @@ components:
       properties:
         course_id:
           type: string
-          example: DPCS100#001
+          example: DPCS100-001
           description: |
-            Unique course ID. First word until # indicates the course prime id. The second word (after #) indicates seasons. For example, if a course has three times in a year, it will be like,
+            Unique course ID. First word until - indicates the course prime id. The second word (after -) indicates seasons. For example, if a course has three times in a year, it will be like,
             - Jan - Apr
-              - DPCS100#1
+              - DPCS100-1
             - May - Aug
-              - DPCS100#2
+              - DPCS100-2
             - Sep - Dec
-              - DPCS100#3
+              - DPCS100-3
         name:
           type: string
           example: ADVANCED COMPETITIVE PROGRAMMING
@@ -903,7 +903,7 @@ components:
             Unique user ID which belongs to the course_id.
         course_id:
           type: string
-          example: DPCS100#1
+          example: DPCS100-1
           description: |
             Unique course ID which belongs to the user_id. 
         status:
