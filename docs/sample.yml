@@ -117,6 +117,7 @@ paths:
                   description: |
                     \<optional><br>
                     User's parents phone number
+
                 orders:
                   type: array
                   items: 
@@ -517,6 +518,7 @@ paths:
                 email: student1@gmail.com
                 phone: 123-456-7890
 
+
       responses:
         200:
           description: created
@@ -546,45 +548,13 @@ paths:
                     description: |
                       <span style="color: red; ">*required</span> User's phone number
                 example:
-                  course_id: DPCS100-1
-                  first_name: Brooklyn
-                  last_name: Beckham
-                  email: student1@gmail.com
-                  phone: 123-456-7890
+                    course_id: DPCS100-1
+                    first_name: Brooklyn
+                    last_name: Beckham
+                    email: student1@gmail.com
+                    phone: 123-456-7890
 
 components:
-  parameters:
-    UserInfoFromSocialMedia:
-      name: Authorization
-      in: header
-      description: identify user by access token
-      required: true
-      example: Beaer ACCESS_TOKEN
-      schema:
-        type: string
-    PageLimit:
-      name: limit
-      in: query
-      description: Limits the number
-      schema:
-        type: integer
-    User-id:
-      name: user_id
-      in: header
-      example: eyJz9sdfsdfsdfsd
-      description: User ID (token id)
-      required: true
-      schema:
-        type: string
-    Course-id:
-      name: course_id
-      in: path
-      example: DPCS100-1
-      description: Course ID
-      required: true
-      schema:
-        type: string
-
   schemas:
     # Daiki
     User:
