@@ -13,53 +13,6 @@ security:
   - BasicAuth: []
 
 paths:
-
-  # Koji
-  /oauth2/userInfo:
-    get:
-      tags:
-        - cognito
-      description: Get user info from social media.
-      parameters:
-        - $ref: "#/components/parameters/UserInfoFromSocialMedia"
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Cognito"
-              example:
-                sub: '0be75991-gk2h-2334-184a-e224e28slffg'
-                username: 'google_101304123810377524376'
-                email_verified: 'false'
-                phone_number_verified: 'false'
-                given_name: 'Martin'
-                family_name: 'Garrix'
-                email: 'martin@mail.com'
-                
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-                schema:
-                  type: array
-                  $ref: "#/components/schemas/CognitoError"
-                example:
-                  error: invalid_token
-                  error_description: Access token is expired or user has globally signed out, disabled or been deleted.
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: "#/components/schemas/CognitoError"
-              example:
-                error: invalid_request
-                error_description: No authorization header set
   /users:
     get:
       tags:
@@ -73,106 +26,206 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
+                  $ref: '#/components/schemas/User'
+
+              example:
+                - user_id: 442c16a8a353
+                  first_name: Brooklyn
+                  last_name: Beckham
+                  image_path: https://wikinetworth.com/uploads/images/brooklyn-beckham.jpg?ezimgfmt=rs:340x340/rscb2/ng:webp/ngcb2
+                  birth: '1994-01-24 00:00:00.000'
+                  email: student1@gmail.com
+                  phone: 123-456-7890
+                  parent_first_name: David
+                  parent_last_name: Beckham
+                  parent_email: parent1@gmail.com
+                  parent_phone: 456-789-0123
+                  orders: [
+                      {
+                        "id": "917c16-ea4c-72306594-9ef0",
+                        "product_name": "private tutoring Starter",
+                        "price": "100.00",
+                        "created_date": "2021-06-25 13:14:36.036"
+                      },
+                      {
+                        "id": "0594-5375f-054f4-7b5e1",
+                        "product_name": "private tutoring Premium",
+                        "price": "300.00",
+                        "created_date": "2021-07-12 15:14:36.036"
+                      },
+                      {
+                        "id": "8ff9-14390-04d99-b00b",
+                        "product_name": "private tutoring Beginner",
+                        "price": "200.00",
+                        "created_date": "2021-11-14 22:26:01.077"
+                      },
+                  ]
+                  type: student
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
+                - user_id: ffaaafecc0e9
+                  first_name: student5
+                  last_name: parent_email
+                  image_path: https://wikinetworth.com/uploads/images/holly-willoughby-husband-family-height.jpg?ezimgfmt=rs:250x250/rscb2/ng:webp/ngcb2
+                  birth: '2008-01-24 00:00:00.000'
+                  email: student-user5@gmail.com
+                  phone: 2345-678-901
+                  parent_first_name: parent_first_name1
+                  parent_last_name: parent_last_name1
+                  parent_email: ''
+                  parent_phone: '+13456678'
+                  orders: [
+                      {
+                        "id": "9a2e41-1lk;afea-afewfa-afa",
+                        "product_name": "private tutoring Basic",
+                        "price": "100.00",
+                        "created_date": "2021-06-24 13:14:36.036"
+                      },
+                      {
+                        "id": "efese1-efeeafea-3233fa-afa",
+                        "product_name": "private tutoring Premium",
+                        "price": "200.00",
+                        "created_date": "2021-08-24 15:14:36.036"
+                      }
+                  ]
+                  type: student
+                  created_date: '2020-07-27 18:34:49.049'
+                  updated_date: '2020-07-27 18:34:49.049'
+                - user_id: d55c4d00a85e
+                  first_name: student1
+                  last_name: full
+                  image_path: https://wikinetworth.com/uploads/images/alex-karpovsky.jpg?ezimgfmt=rs:250x250/rscb2/ng:webp/ngcb2
+                  birth: '2008-01-24 00:00:00.000'
+                  email: student-user1@gmail.com
+                  phone: '1234567890'
+                  parent_first_name: parent_first_name1
+                  parent_last_name: parent_last_name1
+                  parent_email: sample-parent1@gmail.com
+                  parent_phone: 456-789-0123
+                  orders: [
+                      {
+                        "id": "139waj-efw:a32-eiw38yjf-3rlk2",
+                        "product_name": "private tutoring Basic",
+                        "price": "100.00",
+                        "created_date": "2021-06-29 20:22:38.123"
+                      },
+                  ]
+                  type: student
+                  created_date: '2021-06-16 18:34:49.049'
+                  updated_date: '2021-06-16 18:34:49.049'
 
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
-#tak
+  #tak
   /users/detail:
     get:
       tags:
         - users
-      description: Get a specific user data by the token.
+      description: Get a specific user data by the user_id.
       parameters:
-        - $ref: "#/components/parameters/User-id"       
+        - $ref: '#/components/parameters/User-id'
+        - $ref: '#/components/parameters/UserInfoFromSocialMedia'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-  # Tak
+                $ref: '#/components/schemas/Error'
+    # Tak
     put:
       tags:
         - users
-      description: Update the user's details by the token.
+      description: Update (create) a user's details by the user_id.     <ul><li>`create:`  If you specify a user id which doesn't exit, it will create a new user with using request body. </li><li>`update:` If you specify a user id which already exits, it will update user's details with using request body. ⚠️ If you do not include any `optional` key, its value will automatically be rest and filled empty string "".</li> <ul>
       parameters:
-      - $ref: "#/components/parameters/User-id"
+        - $ref: '#/components/parameters/User-id'
       requestBody:
         content:
           application/json:
             schema:
-              type: "object"
+              type: 'object'
               properties:
                 first_name:
-                  type: "string"
+                  type: 'string'
                   description: |
                     <span style="color: red; ">*required</span> User's first name
                 last_name:
-                  type: "string"
+                  type: 'string'
                   description: |
                     <span style="color: red; ">*required</span> User's last name
                 image_path:
                   type: string
                   description: |
-                    \<Optional> The path of a user's profile image
+                    \<optional> The path of a user's profile image
                 birth:
                   type: string
                   format: yyyy-MM-dd HH:mm:ss.sss
-                  description:  |
+                  description: |
                     <span style="color: red; ">*required</span> User's birth day
                 email:
                   type: string
                   format: email
-                  description:  |
+                  description: |
                     <span style="color: red; ">*required</span> User's email
                 phone:
                   type: string
-                  description:  |
+                  description: |
                     <span style="color: red; ">*required</span> User's phone number
                 parent_first_name:
                   type: string
                   description: |
-                    Optional<br>
+                    \<optional><br>
                     User's parents first name
                 parent_last_name:
                   type: string
                   description: |
-                    Optional<br>
+                    \<optional><br>
                     User's parents last name
                 parent_email:
                   type: string
                   format: email
                   description: |
-                    Optional<br>
+                    \<optional><br>
                     User's parents email
                 parent_phone:
                   type: string
                   description: |
-                    Optional<br>
+                    \<optional><br>
                     User's parents phone number
                 orders:
                   type: array
+                  items: 
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      product_name:
+                        type: string
+                      price:
+                        type: string
+                      created_date:
+                        type: string
+                        format: yyyy-MM-dd HH:mm:ss.sss
                   description: |
-                    Optional<br>
-                    The payment information from Stripe
+                    \<optional><br>
+                    User's order(payment) history.                
+
               example:
                 first_name: Brooklyn
                 last_name: Beckham
-                image_path: "https://sampledata.png"
-                birth: "1994-01-24 00:00:00"
+                image_path: 'https://sampledata.png'
+                birth: '1994-01-24 00:00:00.000'
                 email: student1@gmail.com
                 phone: 123-456-7890
                 parent_first_name: David
@@ -180,13 +233,19 @@ paths:
                 parent_email: parent1@gmail.com
                 parent_phone: 456-789-0123
                 orders: [
-                  {
-                    id: "1a239fe-ae23f-fea2431-123fafeaf",
-                    product_name: "private tutoring Basic",
-                    price: "100.00",
-                    created_date: "2021-06-24 13:14:36.036"
-                  }
-                ]
+                      {
+                        "id": "9a2e41-1lk;afea-afewfa-afa",
+                        "product_name": "private tutoring Basic",
+                        "price": "200.00",
+                        "created_date": "2021-06-24 13:14:36.036"
+                      },
+                      {
+                        "id": "efese1-efeeafea-3233fa-afa",
+                        "product_name": "private tutoring Premium",
+                        "price": "300.00",
+                        "created_date": "2021-08-24 15:14:36.036"
+                      },
+              ]
 
       responses:
         200:
@@ -194,28 +253,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
                 example:
                   user_id: 442c16a8a353
                   first_name: Brooklyn
                   last_name: Beckham
-                  image_path: "https://sampledata.png"
-                  birth: "1994-01-24 00:00:00.000"
+                  image_path: 'https://sampledata.png'
+                  birth: '1994-01-24 00:00:00.000'
                   email: student1@gmail.com
                   phone: 123-456-7890
                   parent_first_name": David
                   parent_last_name": Beckham
                   parent_email: parent1@gmail.com
                   parent_phone: 456-789-0123
+                  orders: [
+                      {
+                        "id": "9a2e41-1lk;afea-afewfa-afa",
+                        "product_name": "private tutoring Basic",
+                        "price": "200.00",
+                        "created_date": "2021-06-24 13:14:36.036"
+                      },
+                      {
+                        "id": "efese1-efeeafea-3233fa-afa",
+                        "product_name": "private tutoring Premium",
+                        "price": "300.00",
+                        "created_date": "2021-08-24 15:14:36.036"
+                      },
+                  ]
                   type: student
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   # Tak
   /users/courses:
@@ -224,7 +297,7 @@ paths:
         - users
       description: Get all course_ids that a user has.
       parameters:
-        - $ref: "#/components/parameters/User-id"
+        - $ref: '#/components/parameters/User-id'
       responses:
         200:
           description: OK
@@ -236,10 +309,10 @@ paths:
                   properties:
                     course_id:
                       type: string
-                      description: "Unique course ID which belongs to the user_id."
+                      description: 'Unique course ID which belongs to the user_id.'
                     status:
                       type: string
-                      description: | 
+                      description: |
                         A user's status for the course (course_id).
                         There are four status
                         - wait list
@@ -261,25 +334,25 @@ paths:
                       description: |
                         Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
               example:
-                - course_id: DPCS100#1
+                - course_id: DPCS100-1
                   status: registered
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
-                - course_id: DPCS100#2
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
+                - course_id: DPCS100-2
                   status: wait list
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
-                - course_id: DPCS101#1
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
+                - course_id: DPCS101-1
                   status: resigned
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
 
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   # Tak
   /users/{course_id}/status:
@@ -288,8 +361,8 @@ paths:
         - users
       description: Get the user's status for the course.
       parameters:
-      - $ref: "#/components/parameters/User-id"   
-      - $ref: "#/components/parameters/Course-id"
+        - $ref: '#/components/parameters/User-id'
+        - $ref: '#/components/parameters/Course-id'
       responses:
         200:
           description: OK
@@ -299,7 +372,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    description: | 
+                    description: |
                       A user's status for the course (course_id).
                       There are four status
                       - wait list
@@ -314,34 +387,32 @@ paths:
                     type: string
                     format: yyyy-MM-dd HH:mm:ss.sss
                     description: |
-                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
+                      Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
                   updated_date:
                     type: string
                     format: yyyy-MM-dd HH:mm:ss.sss
                     description: |
-                        Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
+                      Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
               example:
-                status: "registered"
-                created_date: "2021-05-20 22:00:40.464"
-                updated_date: "2021-05-21 23:01:40.464"
+                status: 'registered'
+                created_date: '2021-05-20 22:00:40.464'
+                updated_date: '2021-05-21 23:01:40.464'
 
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
-
-
-  # Tak
+    # Tak
     put:
       tags:
         - users
       description: Update the user's status for the course.
       parameters:
-      - $ref: "#/components/parameters/User-id"   
-      - $ref: "#/components/parameters/Course-id"
+        - $ref: '#/components/parameters/User-id'
+        - $ref: '#/components/parameters/Course-id'
       requestBody:
         content:
           application/json:
@@ -353,11 +424,11 @@ paths:
                     <span style="color: red; ">*required</span> A user's status for the course (course_id).<br>
                     There are four status: <br>
                     - wait list
-                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive").
                     - applied
                       - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                     - registered
-                      - A user who already registered (got interview and paid tuition free) to the course. 
+                      - A user who already registered (got interview and paid tuition free) to the course.
                     - resigned
                       - A user who quit the class for some reason.
             example:
@@ -368,16 +439,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Status"
+                $ref: '#/components/schemas/Status'
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   /courses:
-  # Yasu
+    # Yasu
     get:
       tags:
         - courses
@@ -390,7 +461,573 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Course"
+                  $ref: '#/components/schemas/Course'
+              example:
+                - price:
+                    contents_only: '100'
+                    online_course: '200'
+                  level: Beginner
+                  created_date: '2021-05-31 22:30:12.421'
+                  status: archived
+                  description: >-
+                    Learn the basics of programming and computer science through Python. This
+                    course aims to teach everyone the basics of programming. You will learn to
+                    create simple computer programs, develop problem-solving skills, and work
+                    through fun challenges. Once a student completes this course, they will be
+                    ready to take more advanced courses.
+                  prerequisites:
+                    - None
+                  available_schedules:
+                    - Monday 4:00pm - 6:00pm
+                    - Saturday 10:00am - 12:00pm
+                  summary: >-
+                    An introduction to the fundamentals of computer science and the art of
+                    programming
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2021-03-31 00:00:00.000'
+                  name: Intro to Computer Science
+                  length:
+                    month: '3'
+                    weeks: '12'
+                    hours: '2'
+                  course_id: DPCS100-1
+                  start_date: '2021-01-01 00:00:00.000'
+                  features:
+                    - A broad and robust understanding of computer science and programming.
+                    - Explore fundamental programming concepts in Python
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques
+                    - How to develop and present a final programming project
+                  updated_date: '2021-05-31 22:30:12.421'
+                - price:
+                    contents_only: '191'
+                    online_course: '292'
+                  level: Advanced
+                  created_date: '2021-05-30 20:29:13.420'
+                  status: archived
+                  description: >-
+                    During the course, you will learn everything needed to participate in real
+                    competitions and prepare for software engineer technical interviews. We
+                    focus on the ability to analyze problem statements, apply algorithmic ideas
+                    to real problems and write efficient, reliable, and compact code in C/C++.
+                    We also cover a wide range of advanced algorithms and data structures in
+                    this course (equivalent to advanced computer science courses in most
+                    universities).
+                  prerequisites:
+                    - DPCS200
+                    - Programming Experience in C/C++
+                  available_schedules:
+                    - Wednesday 7:00pm - 9:00pm
+                  summary: >-
+                    Advanced Algorithms & Data Structures, CCC (Canadian Computing Competition)
+                    - Senior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-01-31 00:00:00.000'
+                  name: ADVANCED COMPETITIVE PROGRAMMING
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS300-3
+                  start_date: '2021-11-01 00:00:00.000'
+                  features:
+                    - >-
+                      Advanced Algorithms and Data Structures such as Greedy Algorithms, Dynamic
+                      Programming and more!
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques in C/C++
+                    - How to ace software engineer tech interviews
+                    - >-
+                      Solve real problems to prepare for the Competition such as ACM-ICPC,
+                      Google Code Jam and CCC (Canadian Computing Competition)
+                  updated_date: '2021-05-30 20:29:13.420'
+                - price:
+                    contents_only: '193'
+                    online_course: '293'
+                  level: Advanced
+                  created_date: '2021-05-30 20:29:13.420'
+                  status: archived
+                  description: >-
+                    During the course, you will learn everything needed to participate in real
+                    competitions and prepare for software engineer technical interviews. We
+                    focus on the ability to analyze problem statements, apply algorithmic ideas
+                    to real problems and write efficient, reliable, and compact code in C/C++.
+                    We also cover a wide range of advanced algorithms and data structures in
+                    this course (equivalent to advanced computer science courses in most
+                    universities).
+                  prerequisites:
+                    - DPCS200
+                    - Programming Experience in C/C++
+                  available_schedules:
+                    - Wednesday 7:00pm - 9:00pm
+                  summary: >-
+                    Advanced Algorithms & Data Structures, CCC (Canadian Computing Competition)
+                    - Senior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-04-30 00:00:00.000'
+                  name: ADVANCED COMPETITIVE PROGRAMMING
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS300-4
+                  start_date: '2022-02-01 00:00:00.000'
+                  features:
+                    - >-
+                      Advanced Algorithms and Data Structures such as Greedy Algorithms, Dynamic
+                      Programming and more!
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques in C/C++
+                    - How to ace software engineer tech interviews
+                    - >-
+                      Solve real problems to prepare for the Competition such as ACM-ICPC,
+                      Google Code Jam and CCC (Canadian Computing Competition)
+                  updated_date: '2021-05-30 20:29:13.420'
+                - price:
+                    contents_only: '194'
+                    online_course: '294'
+                  level: Advanced
+                  created_date: '2021-05-30 20:29:12.420'
+                  status: archived
+                  description: >-
+                    During the course, you will learn everything needed to participate in real
+                    competitions and prepare for software engineer technical interviews. We
+                    focus on the ability to analyze problem statements, apply algorithmic ideas
+                    to real problems and write efficient, reliable, and compact code in C/C++.
+                    We also cover a wide range of advanced algorithms and data structures in
+                    this course (equivalent to advanced computer science courses in most
+                    universities).
+                  prerequisites:
+                    - DPCS200
+                    - Programming Experience in C/C++
+                  available_schedules:
+                    - Wednesday 7:00pm - 9:00pm
+                  summary: >-
+                    Advanced Algorithms & Data Structures, CCC (Canadian Computing Competition)
+                    - Senior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-07-31 00:00:00.000'
+                  name: ADVANCED COMPETITIVE PROGRAMMING
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS300-5
+                  start_date: '2022-05-01 00:00:00.000'
+                  features:
+                    - >-
+                      Advanced Algorithms and Data Structures such as Greedy Algorithms, Dynamic
+                      Programming and more!
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques in C/C++
+                    - How to ace software engineer tech interviews
+                    - >-
+                      Solve real problems to prepare for the Competition such as ACM-ICPC,
+                      Google Code Jam and CCC (Canadian Computing Competition)
+                  updated_date: '2021-05-30 20:29:12.420'
+                - price:
+                    contents_only: '130'
+                    online_course: '230'
+                  level: Intermediate
+                  created_date: '2020-05-20 21:30:12.421'
+                  status: active
+                  description: >-
+                    Learn the fundamentals of algorithms and data structures. This course aims
+                    to help students to learn everything needed to participate in CCC - Junior
+                    Division competitions. We start from basics such as Mathematics
+                    Fundamentals, Searching/Sorting and Linear Data Structures. Then we dive
+                    into interesting challenges and tips/tricks on how to think algorithmically
+                    and solve problems efficiently.
+                  prerequisites:
+                    - DPCS100
+                    - Basic knowledge of Python programming language
+                  available_schedules:
+                    - Tuesday 4:00pm - 6:00pm
+                    - Thursday 4:00pm - 6:00pm
+                  summary: >-
+                    Basic Algorithms & Data Structures, CCC (Canadian Computing Competition) -
+                    Junior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2021-06-30 00:00:00.000'
+                  name: Intro to Competitive Programming
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS101-1
+                  start_date: '2021-04-01 00:00:00.000'
+                  features:
+                    - Learn the fundamentals of algorithms and data structures
+                    - Build a solid foundation to become a Competitive Programming wizard
+                    - How to think algorithmically and solve programming problems efficiently
+                    - >-
+                      Solve classical problems to prepare for the Competition such as CCC
+                      (Canadian Computing Competition)
+                  updated_date: '2020-05-20 21:30:12.421'
+                - price:
+                    contents_only: '170'
+                    online_course: '270'
+                  level: Advanced
+                  created_date: '2021-06-20 21:30:13.420'
+                  status: inactive
+                  description: >-
+                    C has been around for more than 40 years but it is still one of the most
+                    used promgramming language. This course aims to teach students on how things
+                    actually work under the hood. You will learn about how hardware works with
+                    our code, manual memory management and creating an application using modern
+                    C/C++. Memory management is critical to modern high-performance
+                    applications, with C/C++ continuing to be the industry standard for
+                    applications dealing with dynamic memory. In addition, memory management is
+                    an essential topic for those who want to be the top 1% software engineers!
+                  prerequisites:
+                    - DPCS101
+                    - DPCS102
+                  available_schedules:
+                    - Wednesday 4:00pm - 6:00pm
+                  summary: C/C++ Programming Language for Computer Science and Competitive Programming
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-01-31 00:00:00.000'
+                  name: C/C++ PROGRAMMING LANGUAGE
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS200-3
+                  start_date: '2021-11-01 00:00:00.000'
+                  features:
+                    - ANSI C/C89, C99 and C11/18 standards
+                    - Fundamentals of Modern C/C++ Program Design
+                    - Working knowledge of Memory Management
+                    - How to develop and present a final programming project
+                  updated_date: '2021-06-20 21:30:13.420'
+                - price:
+                    contents_only: '120'
+                    online_course: '220'
+                  level: Beginner
+                  created_date: '2022-05-20 21:30:12.421'
+                  status: inactive
+                  description: >-
+                    Learn the basics of programming and computer science through Python. This
+                    course aims to teach everyone the basics of programming. You will learn to
+                    create simple computer programs, develop problem-solving skills, and work
+                    through fun challenges. Once a student completes this course, they will be
+                    ready to take more advanced courses.
+                  prerequisites:
+                    - None
+                  available_schedules:
+                    - Monday 4:00pm - 6:00pm
+                    - Saturday 10:00am - 12:00pm
+                  summary: >-
+                    An introduction to the fundamentals of computer science and the art of
+                    programming
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-10-31 00:00:00.000'
+                  name: Intro to Computer Science
+                  length:
+                    month: '3'
+                    weeks: '12'
+                    hours: '2'
+                  course_id: DPCS100-3
+                  start_date: '2021-07-01 00:00:00.000'
+                  features:
+                    - A broad and robust understanding of computer science and programming.
+                    - Explore fundamental programming concepts in Python
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques
+                    - How to develop and present a final programming project
+                  updated_date: '2022-05-20 21:30:12.421'
+                - price:
+                    contents_only: '180'
+                    online_course: '280'
+                  level: Advanced
+                  created_date: '2021-05-30 21:30:13.420'
+                  status: archived
+                  description: >-
+                    During the course, you will learn everything needed to participate in real
+                    competitions and prepare for software engineer technical interviews. We
+                    focus on the ability to analyze problem statements, apply algorithmic ideas
+                    to real problems and write efficient, reliable, and compact code in C/C++.
+                    We also cover a wide range of advanced algorithms and data structures in
+                    this course (equivalent to advanced computer science courses in most
+                    universities).
+                  prerequisites:
+                    - DPCS200
+                    - Programming Experience in C/C++
+                  available_schedules:
+                    - Wednesday 7:00pm - 9:00pm
+                  summary: >-
+                    Advanced Algorithms & Data Structures, CCC (Canadian Computing Competition)
+                    - Senior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2021-06-30 00:00:00.000'
+                  name: ADVANCED COMPETITIVE PROGRAMMING
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS300-1
+                  start_date: '2021-04-01 00:00:00.000'
+                  features:
+                    - >-
+                      Advanced Algorithms and Data Structures such as Greedy Algorithms, Dynamic
+                      Programming and more!
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques in C/C++
+                    - How to ace software engineer tech interviews
+                    - >-
+                      Solve real problems to prepare for the Competition such as ACM-ICPC,
+                      Google Code Jam and CCC (Canadian Computing Competition)
+                  updated_date: '2021-05-30 21:30:13.420'
+                - price:
+                    contents_only: '195'
+                    online_course: '295'
+                  level: Advanced
+                  created_date: '2021-05-30 20:29:14.420'
+                  status: active
+                  description: >-
+                    During the course, you will learn everything needed to participate in real
+                    competitions and prepare for software engineer technical interviews. We
+                    focus on the ability to analyze problem statements, apply algorithmic ideas
+                    to real problems and write efficient, reliable, and compact code in C/C++.
+                    We also cover a wide range of advanced algorithms and data structures in
+                    this course (equivalent to advanced computer science courses in most
+                    universities).
+                  prerequisites:
+                    - DPCS200
+                    - Programming Experience in C/C++
+                  available_schedules:
+                    - Wednesday 7:00pm - 9:00pm
+                  summary: >-
+                    Advanced Algorithms & Data Structures, CCC (Canadian Computing Competition)
+                    - Senior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-10-31 00:00:00.000'
+                  name: ADVANCED COMPETITIVE PROGRAMMING
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS300-6
+                  start_date: '2022-08-01 00:00:00.000'
+                  features:
+                    - >-
+                      Advanced Algorithms and Data Structures such as Greedy Algorithms, Dynamic
+                      Programming and more!
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques in C/C++
+                    - How to ace software engineer tech interviews
+                    - >-
+                      Solve real problems to prepare for the Competition such as ACM-ICPC,
+                      Google Code Jam and CCC (Canadian Computing Competition)
+                  updated_date: '2021-05-30 20:29:14.420'
+                - price:
+                    contents_only: '140'
+                    online_course: '240'
+                  level: Intermediate
+                  created_date: '2021-06-20 21:30:12.421'
+                  status: active
+                  description: >-
+                    World Class AP Computer Science A Prep course! This course aims to help
+                    students get a 5 on AP Computer Science A exam. Our course is proven by many
+                    of our students to guarantee you a 5 on the actual AP exam. We approach this
+                    course from a software engineer`s point of view, give students a solid
+                    understanding of Object-Oriented Programming in Java. We also review all
+                    materials provided by College Board for AP Computer Science A Exam and go
+                    beyond the requirements to solidify the concepts through our real-world
+                    projects!
+                  prerequisites:
+                    - DPCS101
+                    - Grade 11 or higher
+                    - Prior Programming Experience
+                  available_schedules:
+                    - Tuesday 7:00pm - 8:30pm
+                    - Thursday 7:00pm - 8:30pm
+                    - Saturday 1pm - 4pm
+                  summary: Object-Oriented Programming in Java & AP Computer Science A Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2021-06-30 00:00:00.000'
+                  name: AP COMPUTER SCIENCE A
+                  length:
+                    month: '6'
+                    weeks: '26'
+                    hours: '3'
+                  course_id: DPCS102-1
+                  start_date: '2021-04-01 00:00:00.000'
+                  features:
+                    - How to get a 5 on the AP Computer Science A Exam
+                    - Object-Oriented Programming in Java
+                    - >-
+                      Designing a program, developing the algorithms it needs, and writing code
+                      to implement them
+                    - >-
+                      Learn the tools, debugging techniques and how to use Java API
+                      documentation in writing programs
+                    - Apply Object-Oriented concepts when developing real-world programs
+                  updated_date: '2021-06-20 21:30:12.421'
+                - price:
+                    contents_only: '110'
+                    online_course: '210'
+                  level: Beginner
+                  created_date: '2021-05-20 21:30:12.421'
+                  status: active
+                  description: >-
+                    Learn the basics of programming and computer science through Python. This
+                    course aims to teach everyone the basics of programming. You will learn to
+                    create simple computer programs, develop problem-solving skills, and work
+                    through fun challenges. Once a student completes this course, they will be
+                    ready to take more advanced courses.
+                  prerequisites:
+                    - None
+                  available_schedules:
+                    - Monday 4:00pm - 6:00pm
+                    - Saturday 10:00am - 12:00pm
+                  summary: >-
+                    An introduction to the fundamentals of computer science and the art of
+                    programming
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2021-06-30 00:00:00.000'
+                  name: Intro to Computer Science
+                  length:
+                    month: '3'
+                    weeks: '12'
+                    hours: '2'
+                  course_id: DPCS100-2
+                  start_date: '2021-04-01 00:00:00.000'
+                  features:
+                    - A broad and robust understanding of computer science and programming.
+                    - Explore fundamental programming concepts in Python
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques
+                    - How to develop and present a final programming project
+                  updated_date: '2021-05-20 21:30:12.421'
+                - price:
+                    contents_only: '150'
+                    online_course: '250'
+                  level: Advanced
+                  created_date: '2021-06-20 21:30:13.421'
+                  status: active
+                  description: >-
+                    C has been around for more than 40 years but it is still one of the most
+                    used promgramming language. This course aims to teach students on how things
+                    actually work under the hood. You will learn about how hardware works with
+                    our code, manual memory management and creating an application using modern
+                    C/C++. Memory management is critical to modern high-performance
+                    applications, with C/C++ continuing to be the industry standard for
+                    applications dealing with dynamic memory. In addition, memory management is
+                    an essential topic for those who want to be the top 1% software engineers!
+                  prerequisites:
+                    - DPCS101
+                    - DPCS102
+                  available_schedules:
+                    - Wednesday 4:00pm - 6:00pm
+                  summary: C/C++ Programming Language for Computer Science and Competitive Programming
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2021-06-30 00:00:00.000'
+                  name: C/C++ PROGRAMMING LANGUAGE
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS200-1
+                  start_date: '2021-04-01 00:00:00.000'
+                  features:
+                    - ANSI C/C89, C99 and C11/18 standards
+                    - Fundamentals of Modern C/C++ Program Design
+                    - Working knowledge of Memory Management
+                    - How to develop and present a final programming project
+                  updated_date: '2021-06-20 21:30:13.421'
+                - price:
+                    contents_only: '160'
+                    online_course: '260'
+                  level: Advanced
+                  created_date: '2021-06-20 21:30:13.422'
+                  status: inactive
+                  description: >-
+                    C has been around for more than 40 years but it is still one of the most
+                    used promgramming language. This course aims to teach students on how things
+                    actually work under the hood. You will learn about how hardware works with
+                    our code, manual memory management and creating an application using modern
+                    C/C++. Memory management is critical to modern high-performance
+                    applications, with C/C++ continuing to be the industry standard for
+                    applications dealing with dynamic memory. In addition, memory management is
+                    an essential topic for those who want to be the top 1% software engineers!
+                  prerequisites:
+                    - DPCS101
+                    - DPCS102
+                  available_schedules:
+                    - Wednesday 4:00pm - 6:00pm
+                  summary: C/C++ Programming Language for Computer Science and Competitive Programming
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-10-31 00:00:00.000'
+                  name: C/C++ PROGRAMMING LANGUAGE
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS200-2
+                  start_date: '2021-07-01 00:00:00.000'
+                  features:
+                    - ANSI C/C89, C99 and C11/18 standards
+                    - Fundamentals of Modern C/C++ Program Design
+                    - Working knowledge of Memory Management
+                    - How to develop and present a final programming project
+                  updated_date: '2021-06-20 21:30:13.422'
+                - price:
+                    contents_only: '190'
+                    online_course: '290'
+                  level: Advanced
+                  created_date: '2021-05-30 20:30:13.420'
+                  status: archived
+                  description: >-
+                    During the course, you will learn everything needed to participate in real
+                    competitions and prepare for software engineer technical interviews. We
+                    focus on the ability to analyze problem statements, apply algorithmic ideas
+                    to real problems and write efficient, reliable, and compact code in C/C++.
+                    We also cover a wide range of advanced algorithms and data structures in
+                    this course (equivalent to advanced computer science courses in most
+                    universities).
+                  prerequisites:
+                    - DPCS200
+                    - Programming Experience in C/C++
+                  available_schedules:
+                    - Wednesday 7:00pm - 9:00pm
+                  summary: >-
+                    Advanced Algorithms & Data Structures, CCC (Canadian Computing Competition)
+                    - Senior Division Prep Course
+                  category: cs
+                  image_path: https://dev_dpCode.academy/courses/dpcs100.svg
+                  end_date: '2022-10-31 00:00:00.000'
+                  name: ADVANCED COMPETITIVE PROGRAMMING
+                  length:
+                    month: '5'
+                    weeks: '20'
+                    hours: '2'
+                  course_id: DPCS300-2
+                  start_date: '2021-07-01 00:00:00.000'
+                  features:
+                    - >-
+                      Advanced Algorithms and Data Structures such as Greedy Algorithms, Dynamic
+                      Programming and more!
+                    - How to think algorithmically and solve programming problems efficiently
+                    - Learn the tools and debugging techniques in C/C++
+                    - How to ace software engineer tech interviews
+                    - >-
+                      Solve real problems to prepare for the Competition such as ACM-ICPC,
+                      Google Code Jam and CCC (Canadian Computing Competition)
+                  updated_date: '2021-05-30 20:30:13.420'
 
   /courses/{course_id}:
     # Daiki
@@ -399,28 +1036,28 @@ paths:
         - courses
       description: Get specific courses data by its id.
       parameters:
-      - $ref: "#/components/parameters/Course-id"
+        - $ref: '#/components/parameters/Course-id'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Course"
+                $ref: '#/components/schemas/Course'
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-    
+                $ref: '#/components/schemas/Error'
+
     # Tak
     put:
       tags:
         - courses
       description: Update the status of the course by its id.
       parameters:
-      - $ref: "#/components/parameters/Course-id"
+        - $ref: '#/components/parameters/Course-id'
       requestBody:
         content:
           application/json:
@@ -434,11 +1071,11 @@ paths:
                     A user's status for the course (course_id).<br>
                     There are four status: <br>
                     - wait list
-                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive").
                     - applied
                       - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                     - registered
-                      - A user who already registered (got interview and paid tuition free) to the course. 
+                      - A user who already registered (got interview and paid tuition free) to the course.
                     - resigned
                       - A user who quit the class for some reason.
             example:
@@ -449,15 +1086,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Course"
+                $ref: '#/components/schemas/Course'
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
-  
   #Tak
   /courses/{course_id}/users:
     get:
@@ -465,7 +1101,7 @@ paths:
         - courses
       description: Get all user-ids that a course has.
       parameters:
-      - $ref: "#/components/parameters/Course-id"
+        - $ref: '#/components/parameters/Course-id'
       responses:
         200:
           description: OK
@@ -474,36 +1110,36 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Status"
+                  $ref: '#/components/schemas/Status'
               example:
                 - user_id: 442c16a8a353
                   status: registered
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
                 - user_id: ffaaafecc0e9
                   status: wait list
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
                 - user_id: d55c4d00a85e
                   status: applied
-                  created_date: "2021-05-20 22:00:40.464"
-                  updated_date: "2021-05-22 10:00:40.838"
+                  created_date: '2021-05-20 22:00:40.464'
+                  updated_date: '2021-05-22 10:00:40.838'
 
         default:
           description: error occurred
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
-  # Daiki
+    # Daiki
     post:
       tags:
         - courses
       description: Add a user to a course
       parameters:
-      - $ref: "#/components/parameters/User-id"
-      - $ref: "#/components/parameters/Course-id"
+        - $ref: '#/components/parameters/User-id'
+        - $ref: '#/components/parameters/Course-id'
       requestBody:
         content:
           application/json:
@@ -515,15 +1151,15 @@ paths:
                     <span style="color: red; ">*required</span> A user's status for the course (course_id).<br>
                     There are four status: <br>
                     - wait list
-                      - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+                      - A user who applied but not in the process because the course is not ready (the course is "inactive").
                     - applied
                       - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
                     - registered
-                      - A user who already registered (got interview and paid tuition free) to the course. 
+                      - A user who already registered (got interview and paid tuition free) to the course.
                     - resigned
                       - A user who quit the class for some reason.
               example:
-                  user_status: registered
+                user_status: registered
 
       responses:
         200:
@@ -531,10 +1167,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Status"
+                $ref: '#/components/schemas/Status'
 
   /send-email:
-  # Daiki
+    # Daiki
     post:
       tags:
         - email
@@ -559,18 +1195,18 @@ paths:
                 email:
                   type: string
                   format: email
-                  description:  |
+                  description: |
                     <span style="color: red; ">*required</span> User's email
                 phone:
                   type: string
-                  description:  |
+                  description: |
                     <span style="color: red; ">*required</span> User's phone number
               example:
-                  course_id: DPCS100#1
-                  first_name: Brooklyn
-                  last_name: Beckham
-                  email: student1@gmail.com
-                  phone: 123-456-7890
+                course_id: DPCS100-1
+                first_name: Brooklyn
+                last_name: Beckham
+                email: student1@gmail.com
+                phone: 123-456-7890
 
       responses:
         200:
@@ -594,30 +1230,29 @@ paths:
                   email:
                     type: string
                     format: email
-                    description:  |
+                    description: |
                       <span style="color: red; ">*required</span> User's email
                   phone:
                     type: string
-                    description:  |
+                    description: |
                       <span style="color: red; ">*required</span> User's phone number
                 example:
-                    course_id: DPCS100#1
-                    first_name: Brooklyn
-                    last_name: Beckham
-                    email: student1@gmail.com
-                    phone: 123-456-7890
+                  course_id: DPCS100-1
+                  first_name: Brooklyn
+                  last_name: Beckham
+                  email: student1@gmail.com
+                  phone: 123-456-7890
 
 components:
   parameters:
-    # Koji
     UserInfoFromSocialMedia:
-        name: Authorization
-        in: header
-        description: identify user by access token
-        required: true
-        example: Beaer ACCESS_TOKEN
-        schema:
-          type: string
+      name: Authorization
+      in: header
+      description: identify user by access token
+      required: true
+      example: Beaer ACCESS_TOKEN
+      schema:
+        type: string
     PageLimit:
       name: limit
       in: query
@@ -625,55 +1260,23 @@ components:
       schema:
         type: integer
     User-id:
-        name: user_id
-        in: header
-        example: eyJz9sdfsdfsdfsd
-        description: User ID (token id)
-        required: true
-        schema:
-          type: string
+      name: user_id
+      in: header
+      example: eyJz9sdfsdfsdfsd
+      description: User ID (token id)
+      required: true
+      schema:
+        type: string
     Course-id:
-        name: course_id
-        in: path
-        example: DPCS100#1
-        description: Course ID
-        required: true
-        schema:
-          type: string
+      name: course_id
+      in: path
+      example: DPCS100-1
+      description: Course ID
+      required: true
+      schema:
+        type: string
 
   schemas:
-  # Koji
-    Cognito:
-      type: object
-      properties:
-        sub:
-          type: string
-          description: |
-            users id in cognito
-        username:
-          type: string
-          description: |
-            users username in cognito
-        email_verified:
-          type: boolean
-          description: |
-            whether if email is verified
-        phone_number_verified:
-          type: boolean
-          description: |
-            \<Optional> whether if phone number is verified
-        given_name:
-          type: string
-          description: |
-            \<Optional> user's given name
-        family_name:
-          type: string
-          description: |
-            \<Optional> user's family name
-        email:
-          type: string
-          description: |
-            \<Optional> user's email
     # Daiki
     User:
       type: object
@@ -682,7 +1285,7 @@ components:
           type: string
           example: 442c16a8a353
           description: |
-            User's social account unique token id
+            User's unique id published by cognito.
         first_name:
           type: string
           example: Brooklyn
@@ -695,13 +1298,13 @@ components:
             User's last name
         image_path:
           type: string
-          example: "https://sampledata.png"
+          example: https://wikinetworth.com/uploads/images/brooklyn-beckham.jpg?ezimgfmt=rs:340x340/rscb2/ng:webp/ngcb2
           description: |
             The path of a user's profile image
         birth:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "1994-01-24 00:00:00.000"
+          example: '1994-01-24 00:00:00.000'
           description: |
             User's birth day
         email:
@@ -741,27 +1344,47 @@ components:
             Optional<br>
             User's parents phone number
         orders:
+          description: |
+            Optional<br>
+            User's order(payment) history.
           type: array
-          items:
+          items: 
             type: object
             properties:
-              id: 
+              id:
                 type: string
-                example: "1a239fe-ae23f-fea2431-123fafeaf"
+                description: 'unique id used to identify the order'
+                example: "9a2e41-1lk;afea-afewfa-afa"
               product_name:
                 type: string
-                example: "private tutoring Basic"
+                description: 'name of the product'
+                example: 'private tutoring Basic'
               price:
                 type: string
-                example: "100.00"
+                description: 'price of the product'
+                example: '200.00'
               created_date:
                 type: string
-                example: "2021-06-24 13:14:36.036"
-          description:
-            The payment information from Stripe
+                format: yyyy-MM-dd HH:mm:ss.sss
+                description: 'time stamp when the order has completed'
+                example: '2021-06-24 13:14:36.036'
+          example: [
+                      {
+                        "id": "9a2e41-1lk;afea-afewfa-afa",
+                        "product_name": "private tutoring Basic",
+                        "price": 2100.00",
+                        "created_date": "2021-06-24 13:14:36.036"
+                      },
+                      {
+                        "id": "efese1-efeeafea-3233fa-afa",
+                        "product_name": "private tutoring Premium",
+                        "price": "300.00",
+                        "created_date": "2021-08-24 15:14:36.036"
+                      },
+                  ]
         type:
           type: string
-          example: student
+          example: admin
           description: |
             User's type<br>
             Acceptable values are:
@@ -770,31 +1393,31 @@ components:
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-05-20 22:00:40.464"
+          example: '2021-05-20 22:00:40.464'
           description: |
             Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-05-22 10:00:40.838"
+          example: '2021-05-22 10:00:40.838'
           description: |
             Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
 
-  # Tak
+    # Tak
     Course:
       type: object
       properties:
         course_id:
           type: string
-          example: DPCS100#001
+          example: DPCS100-1
           description: |
-            Unique course ID. First word until # indicates the course prime id. The second word (after #) indicates seasons. For example, if a course has three times in a year, it will be like,
+            Unique course ID. First word until - indicates the course prime id. The second word (after -) indicates seasons. For example, if a course has three times in a year, it will be like,
             - Jan - Apr
-              - DPCS100#1
+              - DPCS100-1
             - May - Aug
-              - DPCS100#2
+              - DPCS100-2
             - Sep - Dec
-              - DPCS100#3
+              - DPCS100-3
         name:
           type: string
           example: ADVANCED COMPETITIVE PROGRAMMING
@@ -825,13 +1448,13 @@ components:
         start_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-09-01 00:00:00.000"
+          example: '2021-09-01 00:00:00.000'
           description: |
             The date when the course starts.
         end_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-09-16 00:00:00.000"
+          example: '2021-09-16 00:00:00.000'
           description: |
             The date when the course ends.
         summary:
@@ -851,7 +1474,12 @@ components:
             An image path used for thumbnail.
         features:
           type: array
-          example: ["A broad and robust understanding of computer science and programming.", "Explore fundamental programming concepts in Python", "How to think algorithmically and solve programming problems efficiently"]
+          example:
+            [
+              'A broad and robust understanding of computer science and programming.',
+              'Explore fundamental programming concepts in Python',
+              'How to think algorithmically and solve programming problems efficiently',
+            ]
           items:
             type: string
           description: |
@@ -867,7 +1495,8 @@ components:
             - Advanced
         prerequisites:
           type: array
-          example: [ "DPCS101", "Grade 11 or higher","Prior Programming Experience"]
+          example:
+            ['DPCS101', 'Grade 11 or higher', 'Prior Programming Experience']
           items:
             type: string
           description: |
@@ -877,13 +1506,13 @@ components:
           properties:
             month:
               type: string
-              example: "6"
+              example: '6'
             weeks:
               type: string
-              example: "26"
+              example: '26'
             hours:
               type: string
-              example: "3"
+              example: '3'
           description: |
             A course length. "month" and "weeks" are representing mostly same thing. "hours:" indicates hours per week. If "month" is 6, "weeks" is 26, and "hours" is 3, it can be translated into "26 Weeks (6 Months) - 3 hours per week".
         price:
@@ -891,19 +1520,23 @@ components:
           properties:
             contents_only:
               type: string
-              example: "100"
+              example: '100'
             online_course:
               type: string
-              example: "200"
+              example: '200'
           description: |
             A total price costs for the course. CAD.
         available_schedules:
           type: array
-          example: [ "Tuesday 7pm - 8:30pm", "Thursday 7pm - 8:30pm", "Saturday 1pm - 4pm"]
+          example:
+            [
+              'Tuesday 7pm - 8:30pm',
+              'Thursday 7pm - 8:30pm',
+              'Saturday 1pm - 4pm',
+            ]
           items:
             type: string
-          description:
-            A list of available course schedules.
+          description: A list of available course schedules.
         classroom:
           type: string
           example: https://clasroom.google.com/c/sample
@@ -912,17 +1545,17 @@ components:
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-17 20:46:11.716"
+          example: '2021-06-17 20:46:11.716'
           description: |
             Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-18 15:22:05.292"
+          example: '2021-06-18 15:22:05.292'
           description: |
             Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
 
-  # Tak
+    # Tak
     Status:
       type: object
       properties:
@@ -933,9 +1566,9 @@ components:
             Unique user ID which belongs to the course_id.
         course_id:
           type: string
-          example: DPCS100#1
+          example: DPCS100-1
           description: |
-            Unique course ID which belongs to the user_id. 
+            Unique course ID which belongs to the user_id.
         status:
           type: string
           example: registered
@@ -943,23 +1576,23 @@ components:
             A user's status for the course (course_id).<br>
             There are four status: <br>
             - wait list
-              - A user who applied but not in the process because the course is not ready (the course is "inactive"). 
+              - A user who applied but not in the process because the course is not ready (the course is "inactive").
             - applied
               - A user who already applied but hasn't registered (got interview or paid tuition fee) yet.
             - registered
-              - A user who already registered (got interview and paid tuition free) to the course. 
+              - A user who already registered (got interview and paid tuition free) to the course.
             - resigned
               - A user who quit the class for some reason.
         created_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-17 20:46:11.716"
+          example: '2021-06-17 20:46:11.716'
           description: |
             Timestamp which this data was first created. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
         updated_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: "2021-06-18 15:22:05.292"
+          example: '2021-06-18 15:22:05.292'
           description: |
             Timestamp which this data was last updated. Following to ISO 8601 format. yyyy-MM-dd hh:mm:ss.sss
 
@@ -971,7 +1604,7 @@ components:
           description: error title
         error_description:
           type: string
-          description: error detail    
+          description: error detail
 
     Error:
       type: object
