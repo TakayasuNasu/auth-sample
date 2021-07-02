@@ -18,6 +18,8 @@ paths:
       tags:
         - users
       description: Get all students data.
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       responses:
         200:
           description: OK
@@ -43,7 +45,7 @@ paths:
       description: Get a specific user data by the user_id.
       parameters:
         - $ref: '#/components/parameters/User-id'
-        - $ref: '#/components/parameters/UserInfoFromSocialMedia'
+        - $ref: '#/components/parameters/Authorization'
       responses:
         200:
           description: OK
@@ -64,6 +66,7 @@ paths:
       description: Update (create) a user's details by the user_id.     <ul><li>`create:`  If you specify a user id which doesn't exit, it will create a new user with using request body. </li><li>`update:` If you specify a user id which already exits, it will update user's details with using request body. ⚠️ If you do not include any `optional` key, its value will automatically be rest and filled empty string "".</li> <ul>
       parameters:
         - $ref: '#/components/parameters/User-id'
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -187,6 +190,7 @@ paths:
       description: Get all course_ids that a user has.
       parameters:
         - $ref: '#/components/parameters/User-id'
+        - $ref: '#/components/parameters/Authorization'
       responses:
         200:
           description: OK
@@ -252,6 +256,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/User-id'
         - $ref: '#/components/parameters/Course-id'
+        - $ref: '#/components/parameters/Authorization'
       responses:
         200:
           description: OK
@@ -302,6 +307,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/User-id'
         - $ref: '#/components/parameters/Course-id'
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -381,6 +387,7 @@ paths:
       description: Update the status of the course by its id.
       parameters:
         - $ref: '#/components/parameters/Course-id'
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -425,6 +432,7 @@ paths:
       description: Get all user-ids that a course has.
       parameters:
         - $ref: '#/components/parameters/Course-id'
+        - $ref: '#/components/parameters/Authorization'
       responses:
         200:
           description: OK
@@ -450,6 +458,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/User-id'
         - $ref: '#/components/parameters/Course-id'
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -485,6 +494,8 @@ paths:
       tags:
         - email
       description: Send email to admin
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -555,6 +566,38 @@ paths:
                     phone: 123-456-7890
 
 components:
+  parameters:
+    PageLimit:
+      name: limit
+      in: query
+      description: Limits the number
+      schema:
+        type: integer
+    User-id:
+        name: user_id
+        in: header
+        example: eyJz9sdfsdfsdfsd
+        description: Unique User ID. You can also get it from current session,like `session.sub`.
+        required: true
+        schema:
+          type: string
+    Course-id:
+        name: course_id
+        in: path
+        example: DPCS100-1
+        description: Course ID
+        required: true
+        schema:
+          type: string
+    Authorization: 
+        name: Authorization
+        in: header
+        example: yJraWQiOiIxZTlnZGs3IiwiYWxnIjoiUlMyNTYifQ
+        description: id Token required for authorization of API server. You can also get it from current session, like `session.idToken`.
+        required: true
+        schema:
+          type: string
+
   schemas:
     # Daiki
     User:
