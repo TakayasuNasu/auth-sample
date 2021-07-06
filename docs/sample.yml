@@ -87,7 +87,7 @@ paths:
                     \<optional> The path of a user's profile image
                 birth:
                   type: string
-                  format: yyyy-MM-dd HH:mm:ss.sss
+                  format: yyyy-MM-dd
                   description: |
                     <span style="color: red; ">*required</span> User's birth day
                 email:
@@ -151,7 +151,7 @@ paths:
                   first_name: Brooklyn
                   last_name: Beckham
                   image_path: 'https://sampledata.png'
-                  birth: '1994-01-24 00:00:00.000'
+                  birth: '1994-01-24'
                   email: student1@gmail.com
                   phone: 123-456-7890
                   parent_first_name": David
@@ -625,8 +625,8 @@ components:
             The path of a user's profile image
         birth:
           type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: '1994-01-24 00:00:00.000'
+          format: yyyy-MM-dd
+          example: '1994-01-24'
           description: |
             User's birth day
         email:
@@ -769,14 +769,14 @@ components:
               - A course which is will be "active" in the future. If an user apply for the course which has this status, it will be "wait list"
         start_date:
           type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: '2021-09-01 00:00:00.000'
+          format: yyyy-MM-dd
+          example: '2021-09-01'
           description: |
             The date when the course starts.
         end_date:
           type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
-          example: '2021-09-16 00:00:00.000'
+          format: yyyy-MM-dd
+          example: '2021-09-16'
           description: |
             The date when the course ends.
         summary:
@@ -859,7 +859,12 @@ components:
           items:
             type: string
           description: A list of available course schedules.
-        classroom:
+        contents_only_url:
+          type: string
+          example: https://homsweethom.teachable.com/p/smaple
+          description: |
+            Link for "contents only"'s product'. We're planning to use teachable.com
+        classroom_url:
           type: string
           example: https://clasroom.google.com/c/sample
           description: |
