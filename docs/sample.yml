@@ -68,76 +68,10 @@ paths:
         - $ref: '#/components/parameters/User-id'
         - $ref: '#/components/parameters/Authorization'
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: 'object'
-              properties:
-                first_name:
-                  type: 'string'
-                  description: |
-                    <span style="color: red; ">*required</span> User's first name
-                last_name:
-                  type: 'string'
-                  description: |
-                    <span style="color: red; ">*required</span> User's last name
-                image_path:
-                  type: string
-                  description: |
-                    \<optional> The path of a user's profile image
-                birth:
-                  type: string
-                  format: yyyy-MM-dd
-                  description: |
-                    <span style="color: red; ">*required</span> User's birth day
-                email:
-                  type: string
-                  format: email
-                  description: |
-                    <span style="color: red; ">*required</span> User's email
-                phone:
-                  type: string
-                  description: |
-                    <span style="color: red; ">*required</span> User's phone number
-                parent_first_name:
-                  type: string
-                  description: |
-                    \<optional><br>
-                    User's parents first name
-                parent_last_name:
-                  type: string
-                  description: |
-                    \<optional><br>
-                    User's parents last name
-                parent_email:
-                  type: string
-                  format: email
-                  description: |
-                    \<optional><br>
-                    User's parents email
-                parent_phone:
-                  type: string
-                  description: |
-                    \<optional><br>
-                    User's parents phone number
-
-                orders:
-                  type: array
-                  items: 
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      product_name:
-                        type: string
-                      price:
-                        type: string
-                      created_date:
-                        type: string
-                        format: yyyy-MM-dd HH:mm:ss.sss
-                  description: |
-                    \<optional><br>
-                    User's order(payment) history.                
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
       responses:
         200:
@@ -154,24 +88,11 @@ paths:
                   birth: '1994-01-24'
                   email: student1@gmail.com
                   phone: 123-456-7890
+                  stripe_customer_id: cus_JorQHxxIF0eGwC
                   parent_first_name": David
                   parent_last_name": Beckham
                   parent_email: parent1@gmail.com
                   parent_phone: 456-789-0123
-                  orders: [
-                      {
-                        "id": "9a2e41-1lk;afea-afewfa-afa",
-                        "product_name": "private tutoring Basic",
-                        "price": "200.00",
-                        "created_date": "2021-06-24 13:14:36.036"
-                      },
-                      {
-                        "id": "efese1-efeeafea-3233fa-afa",
-                        "product_name": "private tutoring Premium",
-                        "price": "300.00",
-                        "created_date": "2021-08-24 15:14:36.036"
-                      },
-                  ]
                   type: student
                   created_date: '2021-05-20 22:00:40.464'
                   updated_date: '2021-05-22 10:00:40.838'
@@ -640,6 +561,11 @@ components:
           example: 123-456-7890
           description: |
             User's phone number
+        stripe_customer_id:
+          type: string
+          example: cus_JorQHxxIF0eGwC
+          description: |
+            Customer id issued by Stripe
         parent_first_name:
           type: string
           example: David
@@ -665,45 +591,6 @@ components:
           description: |
             Optional<br>
             User's parents phone number
-        orders:
-          description: |
-            Optional<br>
-            User's order(payment) history.
-          type: array
-          items: 
-            type: object
-            properties:
-              id:
-                type: string
-                description: 'unique id used to identify the order'
-                example: "9a2e41-1lk;afea-afewfa-afa"
-              product_name:
-                type: string
-                description: 'name of the product'
-                example: 'private tutoring Basic'
-              price:
-                type: string
-                description: 'price of the product'
-                example: '200.00'
-              created_date:
-                type: string
-                format: yyyy-MM-dd HH:mm:ss.sss
-                description: 'time stamp when the order has completed'
-                example: '2021-06-24 13:14:36.036'
-          example: [
-                      {
-                        "id": "9a2e41-1lk;afea-afewfa-afa",
-                        "product_name": "private tutoring Basic",
-                        "price": 2100.00",
-                        "created_date": "2021-06-24 13:14:36.036"
-                      },
-                      {
-                        "id": "efese1-efeeafea-3233fa-afa",
-                        "product_name": "private tutoring Premium",
-                        "price": "300.00",
-                        "created_date": "2021-08-24 15:14:36.036"
-                      },
-                  ]
         type:
           type: string
           example: student
