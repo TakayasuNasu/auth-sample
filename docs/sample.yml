@@ -85,7 +85,7 @@ paths:
                   first_name: Brooklyn
                   last_name: Beckham
                   image_path: 'https://sampledata.png'
-                  birth: '1994-01-24 00:00:00.000'
+                  birth: '1994-01-24'
                   email: student1@gmail.com
                   phone: 123-456-7890
                   stripe_customer_id: cus_JorQHxxIF0eGwC
@@ -547,7 +547,7 @@ components:
         birth:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: '1994-01-24 00:00:00.000'
+          example: '1994-01-24'
           description: |
             User's birth day
         email:
@@ -657,13 +657,13 @@ components:
         start_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: '2021-09-01 00:00:00.000'
+          example: '2021-09-01'
           description: |
             The date when the course starts.
         end_date:
           type: string
           format: yyyy-MM-dd HH:mm:ss.sss
-          example: '2021-09-16 00:00:00.000'
+          example: '2021-09-16'
           description: |
             The date when the course ends.
         summary:
