@@ -546,7 +546,7 @@ components:
             The path of a user's profile image
         birth:
           type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
+          format: yyyy-MM-dd
           example: '1994-01-24'
           description: |
             User's birth day
@@ -656,13 +656,13 @@ components:
               - A course which is will be "active" in the future. If an user apply for the course which has this status, it will be "wait list"
         start_date:
           type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
+          format: yyyy-MM-dd
           example: '2021-09-01'
           description: |
             The date when the course starts.
         end_date:
           type: string
-          format: yyyy-MM-dd HH:mm:ss.sss
+          format: yyyy-MM-dd
           example: '2021-09-16'
           description: |
             The date when the course ends.
