@@ -746,7 +746,12 @@ components:
           items:
             type: string
           description: A list of available course schedules.
-        classroom:
+        contents_only_url:
+          type: string
+          example: https://homsweethom.teachable.com/p/smaple
+          description: |
+            Link for "contents only"'s product'. We're planning to use teachable.com
+        classroom_url:
           type: string
           example: https://clasroom.google.com/c/sample
           description: |
